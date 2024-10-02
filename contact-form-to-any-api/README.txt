@@ -1,6 +1,6 @@
 === Contact Form to Any API ===
 Contributors: itpathsolutions,mayur8991,pateljaymin,thakordarshil
-Tags: contact form 7 to api, contactform to api, api, contact form, crm
+Tags: contact form 7 to api, contactform to api, api, wpform, crm
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
@@ -41,7 +41,7 @@ It's the only plugin that works with over 150+ APIs.
 * Paid plugin customization support for JWT Token Integration with Any API <strong><a href="https://www.contactformtoapi.com/#contact_us" target="_blank">(Contact us)</a></strong>
 * Paid plugin customization support for oauth 2.0 API Integration <strong><a href="https://www.contactformtoapi.com/#contact_us" target="_blank">(Contact us)</a></strong>
 * Paid Plugin customization support for any API <strong><a href="https://www.contactformtoapi.com/#contact_us" target="_blank">(Contact us)</a></strong>
-* WPForms to Any API Plugin <strong><a href="https://www.contactformtoapi.com/" target="_blank">(NEW Plugin - Coming Soon)</a></strong>
+* WPForms to Any API Plugin - <strong><a href="https://wordpress.org/plugins/connect-wpform-to-any-api/" target="_blank">(Plugin for WPForm Users - Connect WPForm to Any API)</a></strong>
 
 = Set your own Header Request Parameter =
 
@@ -110,6 +110,10 @@ Contact Form to any API plugin is also available in a professional version which
 * Lead Docket
 * Agendor API
 * And many more
+
+== Our Other Plugins ==
+
+1. <a href="https://wordpress.org/plugins/connect-wpform-to-any-api/"><strong> WPForm to Any API : </strong></a>WPForm to Any API is most powerful plugin to send WPForm data to any third party services. It can be use to send data to CRM Or any REST API. Easy to use and User friendly settings
 
 
 == Support ==
@@ -186,15 +190,6 @@ For plugin integration, we provide premium support for free to help connect your
 == Changelog ==
 
 = 1.2.6 =
-* Fix - Vulnerability & security fixes
-
-= 1.2.5 =
-* Fix - Vulnerability & security fixes
-
-= 1.2.4 =
-* Fix - Vulnerability & security fixes
-
-= 1.2.3 =
 * Fix - Vulnerability & security fixes
 
 = 1.2.2 =
