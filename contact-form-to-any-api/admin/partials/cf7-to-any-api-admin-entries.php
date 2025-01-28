@@ -15,8 +15,9 @@
 <?php
 global $wpdb;
 $Cf7_To_Any_Api = new Cf7_To_Any_Api();
-$cf_id = filter_input(INPUT_GET, 'form_id', FILTER_VALIDATE_INT) !== false ? intval($_GET['form_id']) : 0; ?>
-
+$cf_id = filter_input(INPUT_GET, 'form_id', FILTER_VALIDATE_INT);
+$cf_id = $cf_id !== null && $cf_id !== false ? intval($cf_id) : 0; 
+?>
 <div class="cf_entries" id="cf_entries">
 	<form name="form_entries" id="form_entries" class="cf7toanyapi_entries" method="get">
 		<label for="form" class="cf7toanyapi_select_form"><?php esc_html_e( 'Choose a form:', 'contact-form-to-any-api' ); ?></label>

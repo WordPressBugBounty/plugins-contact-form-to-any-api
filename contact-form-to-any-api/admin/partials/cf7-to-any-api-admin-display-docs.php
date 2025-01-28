@@ -170,6 +170,16 @@
                  <li><?php esc_html_e( 'Superoffice CRM', 'contact-form-to-any-api' ); ?></li>
                  <li><?php esc_html_e( 'Sembark API', 'contact-form-to-any-api' ); ?></li>
                  <li><?php esc_html_e( 'SingleOps', 'contact-form-to-any-api' ); ?></li>
+                 <li><?php esc_html_e( 'Twilio WhatsApp', 'contact-form-to-any-api' ); ?></li>
+                 <li><?php esc_html_e( 'Kala CRM Israel', 'contact-form-to-any-api' ); ?></li>
+                 <li><?php esc_html_e( 'Personio', 'contact-form-to-any-api' ); ?></li>
+                 <li><?php esc_html_e( 'Lead Docket', 'contact-form-to-any-api' ); ?></li>
+                 <li><?php esc_html_e( 'Fincenfetch', 'contact-form-to-any-api' ); ?></li>
+                 <li><?php esc_html_e( 'Jetbrains / Intellij Space API', 'contact-form-to-any-api' ); ?></li>
+                 <li><?php esc_html_e( 'Agendor API', 'contact-form-to-any-api' ); ?></li>
+                 <li><?php esc_html_e( 'Unlatch CRM', 'contact-form-to-any-api' ); ?></li>
+                 <li><?php esc_html_e( 'JobAdder', 'contact-form-to-any-api' ); ?></li>
+                 <li><?php esc_html_e( 'Flowdesk', 'contact-form-to-any-api' ); ?></li>
                  <li><?php esc_html_e( 'And many more', 'contact-form-to-any-api' ); ?></li>
              </ul>
 

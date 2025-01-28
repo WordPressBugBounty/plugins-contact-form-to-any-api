@@ -447,7 +447,7 @@ class Cf7_To_Any_Api_Admin {
 		$posted_data['submitted_from'] = $post_id;
 		$posted_data['submit_time'] = date('Y-m-d H:i:s');
 		if(isset($_SERVER['REMOTE_ADDR'])){
-			$posted_data['User_IP'] = (int)sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR']));		
+			$posted_data['User_IP'] = sanitize_text_field($_SERVER['REMOTE_ADDR']);
 		}
 		self::cf7anyapi_save_form_submit_data($form_id,$posted_data);
 
@@ -701,5 +701,65 @@ class Cf7_To_Any_Api_Admin {
 				include dirname(__FILE__).'/partials/cf7-to-any-api-feedback.php';
             }
         }
+	}
+
+	public function cf7anyapi_add_dashboard_widget() {
+	    wp_add_dashboard_widget(
+	        'cf7anyapi_dashboard_widget',       // Widget slug
+	        __('Contact Form 7 to Any API Statistics', 'text-domain'), // Widget title
+	        array(&$this,'cf7anyapi_render_dashboard_widget') // Callback function to display content
+	    );
+	}
+
+	// Render the widget content
+	public function cf7anyapi_render_dashboard_widget() {
+	    $cf7_api_count = $this->get_cf7_api_post_count();
+
+	    echo '<ul>';
+	    if ($cf7_api_count > 0) {
+	        echo '<li><span class="dashicons dashicons-rest-api"></span> <strong>' . __('Number of API Connections:', 'text-domain') . '</strong> ' . esc_html($cf7_api_count) . '</li>';
+	    } else {
+	        echo '<li><span class="dashicons dashicons-rest-api"></span> <a href="' . esc_url(admin_url('post-new.php?post_type=cf7_to_any_api')) . '"><strong>' . __('Add New API Connection', 'text-domain') . '</strong></a></li>';
+	    }
+	    echo '<li><span class="dashicons dashicons-book-alt"></span> <a href="' . esc_url(admin_url('edit.php?post_type=cf7_to_any_api&page=cf7anyapi_docs')) . '"><strong>' . __('API Documentation', 'text-domain') . '</strong></a></li>';
+	    echo '<li><span class="dashicons dashicons-clipboard"></span> <a href="' . esc_url(admin_url('edit.php?post_type=cf7_to_any_api&page=cf7anyapi_logs')) . '"><strong>' . __('API Logs', 'text-domain') . '</strong></a></li>';
+	    echo '</ul>';
+	    echo '<hr>';
+	    echo '<h3><strong>' . __('Contact Form 7 to Any API PRO', 'text-domain') . '</strong></h3>';
+	    echo '<ul>';
+	    echo '<li><span class="dashicons dashicons-saved"></span> ' . __('200+ API Supports', 'text-domain') . '</li>';
+	    echo '<li><span class="dashicons dashicons-saved"></span> ' . __('Support Multi Level or Any Format of JSON', 'text-domain') . '</li>';
+	    echo '<li><span class="dashicons dashicons-saved"></span> ' . __('Supports Multiple Files Upload BASE64', 'text-domain') . '</li>';
+	    echo '<li><span class="dashicons dashicons-saved"></span> ' . __('Priority Support (support@contactformtoapi.com)', 'text-domain') . '</li>';
+	    echo '<li><span class="dashicons dashicons-saved"></span> ' . __('OAuth 2.0 Customization From our Expert Developer Team', 'text-domain') . '</li>';
+	    echo '</ul>';
+	    echo '<ul>';
+	    echo '<li><a href="https://www.contactformtoapi.com/pricing/" class="button button-primary"><strong>' . __('Buy now', 'text-domain') . '</strong></a> ';
+	    echo '<a href="https://www.contactformtoapi.com/#contact_us" class="button button-secondary"><strong>' . __('Need Help with Plugin Integration', 'text-domain') . '</strong></a></li>';
+	    echo '</ul>';
+	}
+
+	// Function to fetch the count of published posts for the cf7_to_any_api CPT
+	public function get_cf7_api_post_count() {
+	    // $cache_key = 'cf7_api_post_count';
+	    // $cached_count = get_transient($cache_key);
+
+	    // if ($cached_count !== false) {
+	    //     return $cached_count;
+	    // }
+	    //wp_cache_flush();
+
+	    $args = array(
+	        'post_type'      => 'cf7_to_any_api',
+	        'post_status'    => 'publish',
+	        'posts_per_page' => -1,
+	        'fields'         => 'ids'
+	    );
+
+	    $query = new WP_Query($args);
+	    $count = $query->found_posts;
+
+	    //set_transient($cache_key, $count, HOUR_IN_SECONDS);
+	    return $count;
 	}
 }

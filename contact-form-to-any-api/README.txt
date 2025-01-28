@@ -2,9 +2,9 @@
 Contributors: itpathsolutions,mayur8991,pateljaymin,thakordarshil
 Tags: contact form 7 to api, contactform to api, api, wpform, crm
 Requires at least: 6.0
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.2.6
+Stable tag: 1.2.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -109,6 +109,12 @@ Contact Form to any API plugin is also available in a professional version which
 * Fincenfetch
 * Lead Docket
 * Agendor API
+* Lead IM Israel
+* Personio
+* Kala CRM Israel
+* Twilio WhatsApp
+* Pixxicrm
+* easybizy
 * And many more
 
 == Our Other Plugins ==
@@ -188,6 +194,14 @@ For plugin integration, we provide premium support for free to help connect your
 3. Contact Form 7 Submitted Entries
 
 == Changelog ==
+
+= 1.2.7 =
+
+*Release Date 28 January 2025*
+
+* Fix - User IP issue fix for API logs
+* Enhancement - More API Support added
+* New - Dashboard Widget Added
 
 = 1.2.6 =
 * Fix - Vulnerability & security fixes
