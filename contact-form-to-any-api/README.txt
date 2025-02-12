@@ -4,7 +4,7 @@ Tags: contact form 7 to api, contactform to api, api, wpform, crm
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.2.7
+Stable tag: 1.2.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -194,6 +194,14 @@ For plugin integration, we provide premium support for free to help connect your
 3. Contact Form 7 Submitted Entries
 
 == Changelog ==
+
+= 1.2.8 =
+
+*Release Date 12 February 2025*
+
+* Fix - Documentation Page Updates
+* Fix - Minor fixes and updates
+* Enhancement - More API Support added
 
 = 1.2.7 =
 

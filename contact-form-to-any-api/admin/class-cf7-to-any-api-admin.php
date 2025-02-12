@@ -709,6 +709,19 @@ class Cf7_To_Any_Api_Admin {
 	        __('Contact Form 7 to Any API Statistics', 'text-domain'), // Widget title
 	        array(&$this,'cf7anyapi_render_dashboard_widget') // Callback function to display content
 	    );
+
+		// Reorder the widget to appear at the top
+		global $wp_meta_boxes;
+
+		// Move your widget to the top of the 'normal' dashboard area
+		$widget = $wp_meta_boxes['dashboard']['normal']['core']['cf7anyapi_dashboard_widget'];
+		unset($wp_meta_boxes['dashboard']['normal']['core']['cf7anyapi_dashboard_widget']);
+	
+		// Reinsert it at the top
+		$wp_meta_boxes['dashboard']['normal']['core'] = array_merge(
+			array('cf7anyapi_dashboard_widget' => $widget),
+			$wp_meta_boxes['dashboard']['normal']['core']
+		);
 	}
 
 	// Render the widget content
@@ -761,5 +774,23 @@ class Cf7_To_Any_Api_Admin {
 
 	    //set_transient($cache_key, $count, HOUR_IN_SECONDS);
 	    return $count;
+	}	
+
+	// Function to add additional links in plugin meta area of plugin listing page
+	public function cf7anyapi_add_plugin_links($links, $file) {
+		
+		if ($file == 'contact-form-to-any-api/cf7-to-any-api.php') {
+			$new_links = array(
+				'<a href="https://www.contactformtoapi.com/#contact_us" target="_blank">Support</a>',				
+				'<a href="https://www.contactformtoapi.com/pricing/#pricing" target="_blank">Upgrade To PRO</a>',	
+				'<a href="https://www.contactformtoapi.com/pricing/#oauth" target="_blank">OAuth 2.0 Customization</a>',			
+				'<a href="https://www.contactformtoapi.com/pricing/#crm" target="_blank">Supported CRM/API</a>',
+				'<a href="https://wordpress.org/plugins/connect-wpform-to-any-api/" target="_blank">Connect WPForm to Any API</a>'
+			);
+
+			// Merge new links with existing ones
+			$links = array_merge($links, $new_links);
+		}
+		return $links;
 	}
 }
