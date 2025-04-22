@@ -2,9 +2,9 @@
 Contributors: itpathsolutions,mayur8991,pateljaymin,thakordarshil
 Tags: contact form 7 to api, contactform to api, api, wpform, crm
 Requires at least: 6.0
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.2.8
+Stable tag: 1.2.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -194,6 +194,15 @@ For plugin integration, we provide premium support for free to help connect your
 3. Contact Form 7 Submitted Entries
 
 == Changelog ==
+
+= 1.2.9 =
+
+*Release Date 22 April 2025*
+
+* Improvment – Made the file field title clickable on the entry list page
+* Compatibility – Fully compatible with WordPress 6.8 version
+* Enhancement – Enhanced internationalization (i18n) support.
+* New - Added a new .pot file for translations.
 
 = 1.2.8 =
 

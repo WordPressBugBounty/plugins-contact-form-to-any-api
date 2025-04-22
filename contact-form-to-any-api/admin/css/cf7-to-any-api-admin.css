@@ -603,6 +603,9 @@ p.pro_tab_description { font-size: 17px; line-height: 24px; }
 .tab-index-8 .tab-index:after {
     content: "8";
 }
+.tab-index-9 .tab-index:after {
+    content: "9";
+}
 .tab-pane h5 {
     text-align: center;
     margin-bottom: 30px;
@@ -647,6 +650,74 @@ p.pro_tab_description { font-size: 17px; line-height: 24px; }
 }
 ul.pro_crm_list {
     column-count: 2;
+}
+/*Other plugins CSS Start*/
+.our-plugin-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 40px;
+}
+.our-plugin-card {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    transition: box-shadow 0.3s ease;
+}
+.our-plugin-card:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+.our-plugin-icon img {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: #f8f8f8;
+    padding: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+.our-plugin-details {
+    flex-grow: 1;
+    padding: 0 20px;
+}
+.our-plugin-details h4 {
+    margin: 0 0 5px;
+    font-size: 16px;
+    font-weight: 600;
+}
+.our-plugin-details p {
+    margin: 0 10px 10px 0;
+    color: #555;
+    font-size: 14px;
+}
+.our-plugin-badge {
+    background-color: #007cba;
+    color: #e5f1f8;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 10px;
+    margin-right: 10px;
+    border: 1px solid transparent; /* adds same height as a */
+}
+.our-plugin-details a {
+    display: inline-block;
+    font-size: 12px;
+    color: #0073aa;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid;
+    padding: 4px 10px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+.our-plugin-list .our-plugin-card .our-plugin-details a:hover {
+    color: #fff;
+    background-color: #007cba;
+    border: 1px solid #007cba;
 }
 /* Popup CSS  */
 @media screen and (max-width: 1500px){

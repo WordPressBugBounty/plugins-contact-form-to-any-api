@@ -119,7 +119,6 @@ class Cf7_To_Any_Api_Admin {
 	         	echo '<div class="notice notice-warning is-dismissible">
 			         <p>' . esc_html__( 'Contact form 7 API integrations requires CONTACT FORM 7 Plugin to be installed and active', 'contact-form-to-any-api' ) . '</p>
 			      </div>';
-
     		}
     	}
 	}
@@ -189,10 +188,16 @@ class Cf7_To_Any_Api_Admin {
 		return $links;
 	}
 	
+	/**
+	 * Filters the columns displayed in the custom post type list table.
+	 *
+	 * This function customizes the columns shown in the admin list view
+	 * for the custom post type related to the "Contact Form to Any API" plugin.
+	 */
 	public function cf7_to_any_api_filter_posts_columns($columns){
 		$columns = array(
 			'cb' => $columns['cb'],
-			'title' => __('Title'),
+			'title' => __('Title', 'contact-form-to-any-api'),
 			'cf7form' => __('Form Name','contact-form-to-any-api'),
 			'date' => __('Date','contact-form-to-any-api'),
 		);
@@ -347,7 +352,7 @@ class Cf7_To_Any_Api_Admin {
 	 */
 	public static function cf7_to_any_api_get_form_field_function(){
 		if(empty((int)sanitize_text_field(wp_unslash($_POST['form_id'])))){
-			echo wp_json_encode('No Fields Found for Selected Form.');
+			echo wp_json_encode(__( 'No Fields Found for Selected Form.', 'contact-form-to-any-api' ));
 			exit();
 		}
 		$html = '';
@@ -447,7 +452,7 @@ class Cf7_To_Any_Api_Admin {
 		$posted_data['submitted_from'] = $post_id;
 		$posted_data['submit_time'] = date('Y-m-d H:i:s');
 		if(isset($_SERVER['REMOTE_ADDR'])){
-			$posted_data['User_IP'] = sanitize_text_field($_SERVER['REMOTE_ADDR']);
+			$posted_data['User_IP'] = sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR']));
 		}
 		self::cf7anyapi_save_form_submit_data($form_id,$posted_data);
 
@@ -502,6 +507,7 @@ class Cf7_To_Any_Api_Admin {
 	}
 
 	public static function cf7anyapi_save_form_submit_data($form_id,$posted_data){
+
 		global $wpdb;
 		$table = $wpdb->prefix.'cf7anyapi_entry_id';
 		$table2 = $wpdb->prefix.'cf7anyapi_entries';
@@ -511,8 +517,10 @@ class Cf7_To_Any_Api_Admin {
 
 		foreach($posted_data as $field => $value){
 			
-			$sanitized_field = sanitize_text_field($field);
-        	$posted_value 	= is_array($value) ? implode(',', array_map('sanitize_text_field', $value)) : sanitize_text_field($value);
+			$posted_value = (is_array($value) ? implode(',',$value) : $value);
+			if (is_string($posted_value) && strlen($posted_value) > 255) {
+    			$posted_value = substr($posted_value, 0, 255);
+			}
 			$wpdb->insert(
 				$table2,
 				array(
@@ -706,7 +714,7 @@ class Cf7_To_Any_Api_Admin {
 	public function cf7anyapi_add_dashboard_widget() {
 	    wp_add_dashboard_widget(
 	        'cf7anyapi_dashboard_widget',       // Widget slug
-	        __('Contact Form 7 to Any API Statistics', 'text-domain'), // Widget title
+	        __('Contact Form 7 to Any API Statistics', 'contact-form-to-any-api'), // Widget title
 	        array(&$this,'cf7anyapi_render_dashboard_widget') // Callback function to display content
 	    );
 
@@ -730,38 +738,30 @@ class Cf7_To_Any_Api_Admin {
 
 	    echo '<ul>';
 	    if ($cf7_api_count > 0) {
-	        echo '<li><span class="dashicons dashicons-rest-api"></span> <strong>' . __('Number of API Connections:', 'text-domain') . '</strong> ' . esc_html($cf7_api_count) . '</li>';
-	    } else {
-	        echo '<li><span class="dashicons dashicons-rest-api"></span> <a href="' . esc_url(admin_url('post-new.php?post_type=cf7_to_any_api')) . '"><strong>' . __('Add New API Connection', 'text-domain') . '</strong></a></li>';
+	        echo '<li><span class="dashicons dashicons-rest-api"></span> <strong>' . esc_html(__('Number of API Connections:', 'contact-form-to-any-api')) . '</strong> ' . esc_html($cf7_api_count) . '</li>';
+	    } else {	        
+	        echo '<li><span class="dashicons dashicons-rest-api"></span> <a href="' . esc_url(admin_url('post-new.php?post_type=cf7_to_any_api')) . '"><strong>' . esc_html(__('Add New API Connection', 'contact-form-to-any-api')) . '</strong></a></li>';
 	    }
-	    echo '<li><span class="dashicons dashicons-book-alt"></span> <a href="' . esc_url(admin_url('edit.php?post_type=cf7_to_any_api&page=cf7anyapi_docs')) . '"><strong>' . __('API Documentation', 'text-domain') . '</strong></a></li>';
-	    echo '<li><span class="dashicons dashicons-clipboard"></span> <a href="' . esc_url(admin_url('edit.php?post_type=cf7_to_any_api&page=cf7anyapi_logs')) . '"><strong>' . __('API Logs', 'text-domain') . '</strong></a></li>';
+	    echo '<li><span class="dashicons dashicons-book-alt"></span> <a href="' . esc_url(admin_url('edit.php?post_type=cf7_to_any_api&page=cf7anyapi_docs')) . '"><strong>' .esc_html(__('API Documentation', 'contact-form-to-any-api')) . '</strong></a></li>';
+	    echo '<li><span class="dashicons dashicons-clipboard"></span> <a href="' . esc_url(admin_url('edit.php?post_type=cf7_to_any_api&page=cf7anyapi_logs')) . '"><strong>' . esc_html(__('API Logs', 'contact-form-to-any-api')) . '</strong></a></li>';
 	    echo '</ul>';
 	    echo '<hr>';
-	    echo '<h3><strong>' . __('Contact Form 7 to Any API PRO', 'text-domain') . '</strong></h3>';
+	    echo '<h3><strong>' . esc_html(__('Contact Form 7 to Any API PRO', 'contact-form-to-any-api')) . '</strong></h3>';
 	    echo '<ul>';
-	    echo '<li><span class="dashicons dashicons-saved"></span> ' . __('200+ API Supports', 'text-domain') . '</li>';
-	    echo '<li><span class="dashicons dashicons-saved"></span> ' . __('Support Multi Level or Any Format of JSON', 'text-domain') . '</li>';
-	    echo '<li><span class="dashicons dashicons-saved"></span> ' . __('Supports Multiple Files Upload BASE64', 'text-domain') . '</li>';
-	    echo '<li><span class="dashicons dashicons-saved"></span> ' . __('Priority Support (support@contactformtoapi.com)', 'text-domain') . '</li>';
-	    echo '<li><span class="dashicons dashicons-saved"></span> ' . __('OAuth 2.0 Customization From our Expert Developer Team', 'text-domain') . '</li>';
+	    echo '<li><span class="dashicons dashicons-saved"></span> ' . esc_html(__('200+ API Supports', 'contact-form-to-any-api')) . '</li>';
+	    echo '<li><span class="dashicons dashicons-saved"></span> ' . esc_html(__('Support Multi Level or Any Format of JSON', 'contact-form-to-any-api')) . '</li>';
+	    echo '<li><span class="dashicons dashicons-saved"></span> ' . esc_html(__('Supports Multiple Files Upload BASE64', 'contact-form-to-any-api')) . '</li>';
+	    echo '<li><span class="dashicons dashicons-saved"></span> ' . esc_html(__('Priority Support (support@contactformtoapi.com)', 'contact-form-to-any-api')) . '</li>';
+	    echo '<li><span class="dashicons dashicons-saved"></span> ' . esc_html(__('OAuth 2.0 Customization From our Expert Developer Team', 'contact-form-to-any-api')) . '</li>';
 	    echo '</ul>';
 	    echo '<ul>';
-	    echo '<li><a href="https://www.contactformtoapi.com/pricing/" class="button button-primary"><strong>' . __('Buy now', 'text-domain') . '</strong></a> ';
-	    echo '<a href="https://www.contactformtoapi.com/#contact_us" class="button button-secondary"><strong>' . __('Need Help with Plugin Integration', 'text-domain') . '</strong></a></li>';
+	    echo '<li><a href="https://www.contactformtoapi.com/pricing/" class="button button-primary"><strong>' . esc_html(__('Buy now', 'contact-form-to-any-api')) . '</strong></a> ';
+	    echo '<a href="https://www.contactformtoapi.com/#contact_us" class="button button-secondary"><strong>' . esc_html(__('Need Help with Plugin Integration', 'contact-form-to-any-api')) . '</strong></a></li>';
 	    echo '</ul>';
 	}
 
 	// Function to fetch the count of published posts for the cf7_to_any_api CPT
 	public function get_cf7_api_post_count() {
-	    // $cache_key = 'cf7_api_post_count';
-	    // $cached_count = get_transient($cache_key);
-
-	    // if ($cached_count !== false) {
-	    //     return $cached_count;
-	    // }
-	    //wp_cache_flush();
-
 	    $args = array(
 	        'post_type'      => 'cf7_to_any_api',
 	        'post_status'    => 'publish',
@@ -771,8 +771,6 @@ class Cf7_To_Any_Api_Admin {
 
 	    $query = new WP_Query($args);
 	    $count = $query->found_posts;
-
-	    //set_transient($cache_key, $count, HOUR_IN_SECONDS);
 	    return $count;
 	}	
 
@@ -781,11 +779,11 @@ class Cf7_To_Any_Api_Admin {
 		
 		if ($file == 'contact-form-to-any-api/cf7-to-any-api.php') {
 			$new_links = array(
-				'<a href="https://www.contactformtoapi.com/#contact_us" target="_blank">Support</a>',				
-				'<a href="https://www.contactformtoapi.com/pricing/#pricing" target="_blank">Upgrade To PRO</a>',	
-				'<a href="https://www.contactformtoapi.com/pricing/#oauth" target="_blank">OAuth 2.0 Customization</a>',			
-				'<a href="https://www.contactformtoapi.com/pricing/#crm" target="_blank">Supported CRM/API</a>',
-				'<a href="https://wordpress.org/plugins/connect-wpform-to-any-api/" target="_blank">Connect WPForm to Any API</a>'
+				'<a href="https://www.contactformtoapi.com/#contact_us" target="_blank">' . esc_html__( 'Support', 'contact-form-to-any-api' ) . '</a>',
+				'<a href="https://www.contactformtoapi.com/pricing/#pricing" target="_blank">' . esc_html__( 'Upgrade To PRO', 'contact-form-to-any-api' ) . '</a>',	
+				'<a href="https://www.contactformtoapi.com/pricing/#oauth" target="_blank">' . esc_html__( 'OAuth 2.0 Customization', 'contact-form-to-any-api' ) . '</a>',			
+				'<a href="https://www.contactformtoapi.com/pricing/#crm" target="_blank">' . esc_html__( 'Supported CRM/API', 'contact-form-to-any-api' ) . '</a>',
+				'<a href="https://wordpress.org/plugins/connect-wpform-to-any-api/" target="_blank">' . esc_html__( 'Connect WPForm to Any API', 'contact-form-to-any-api' ) . '</a>'
 			);
 
 			// Merge new links with existing ones

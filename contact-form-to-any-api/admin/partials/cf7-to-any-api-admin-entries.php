@@ -113,23 +113,19 @@ $cf_id = $cf_id !== null && $cf_id !== false ? intval($cf_id) : 0;
 														</a>
 													</td><?php
 												}
-											}
-											else if($Cf7_To_Any_Api->cf7toanyapi_admin_get_field_name($v2) == 'submitted_from'){
+											} else if($Cf7_To_Any_Api->cf7toanyapi_admin_get_field_name($v2) == 'submitted_from'){
 												echo '<td data-head="'.esc_attr( $Cf7_To_Any_Api->cf7toanyapi_admin_get_field_name($v2) ).'"><a href="'.esc_url(get_the_permalink($_value)).'" target="_blank">'.esc_html(get_the_title($_value)).'</a></td>';
-											}
-											else{
+											} else{
 												$_values = esc_html(html_entity_decode($_value));
 												if(strlen($_values) > $display_character){
-
 													echo '<td data-head="'. esc_attr(  $Cf7_To_Any_Api->cf7toanyapi_admin_get_field_name($v2) ).'">'.esc_html(substr($_values, 0, $display_character)).'...</td>';
 												}else{
-													echo '<td data-head="'. esc_attr(  $Cf7_To_Any_Api->cf7toanyapi_admin_get_field_name($v2) ).'">'.esc_html(htmlspecialchars_decode($_value)).'</td>';
+													echo '<td data-head="'. esc_attr(  $Cf7_To_Any_Api->cf7toanyapi_admin_get_field_name($v2) ).'">'.htmlspecialchars_decode($_value).'</td>';
 												}
 											}
 										}//Close foreach
 										echo '</tr>';
-									}//Close foreach
-								
+									}//Close foreach							
 								
 								}
 							?>

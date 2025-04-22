@@ -14,6 +14,7 @@
         <a class="nav-link tab-index-6" id="v-pills-cf7-hidden-field-tab" data-toggle="pill" href="#v-pills-cf7-hidden-field" role="tab" aria-controls="v-pills-cf7-hidden-field" aria-selected="false"><div class="tab-index"></div><?php esc_html_e( 'CF7 Hidden Fields', 'contact-form-to-any-api' ); ?></a>
         <a class="nav-link tab-index-7" id="v-pills-pro-tab" data-toggle="pill" href="#v-pills-pro" role="tab" aria-controls="v-pills-pro" aria-selected="false"><div class="tab-index"></div><?php esc_html_e( 'Contact form to any API PRO', 'contact-form-to-any-api' ); ?></a>
         <a class="nav-link tab-index-8" id="v-pills-contact-us-tab" data-toggle="pill" href="#v-pills-contact-us" role="tab" aria-controls="v-pills-contact-us" aria-selected="false"><div class="tab-index"></div><?php esc_html_e( 'Contact Us', 'contact-form-to-any-api' ); ?></a>
+        <a class="nav-link tab-index-9" id="v-pills-other-plugins-tab" data-toggle="pill" href="#v-pills-other-plugins" role="tab" aria-controls="v-pills-other-plugins" aria-selected="false"><div class="tab-index"></div><?php esc_html_e( 'Our Other Plugins', 'contact-form-to-any-api' ); ?></a>
         </div>
     </div>
     <div class="col-xl-10 col-lg-9 col-md-9 col-12 tab column-tab-content">
@@ -28,8 +29,8 @@
                 <li>
                     <strong><?php esc_html_e( 'Add a New CF7 API', 'contact-form-to-any-api' ); ?></strong>
                     <ul>
-                        <li><?php esc_html_e( 'Click on', 'contact-form-to-any-api' ); ?> <strong><?php esc_html_e( 'Add New CF7 API', 'contact-form-to-any-api' ); ?></strong>.</li>
-                        <li><?php esc_html_e( 'Provide a suitable title for your API in the', 'contact-form-to-any-api' ); ?> <strong><?php esc_html_e( 'API Title', 'contact-form-to-any-api' ); ?></strong> <?php esc_html_e( 'field.', 'contact-form-to-any-api' ); ?></li>
+                        <li><?php echo wp_kses_post(__( 'Click on <strong>Add New CF7 API</strong>.', 'contact-form-to-any-api' )); ?></li>
+                        <li><?php echo wp_kses_post(__( 'Provide a suitable title for your API in the <strong>API Title</strong> field.', 'contact-form-to-any-api' )); ?></li>
                     </ul>
                 </li>
 
@@ -43,7 +44,7 @@
                 <li>
                     <strong><?php esc_html_e( 'Enter the API URL', 'contact-form-to-any-api' ); ?></strong>
                     <ul>
-                        <li><?php esc_html_e( 'Input the URL for your CRM or API in the', 'contact-form-to-any-api' ); ?> <strong><?php esc_html_e( 'API URL', 'contact-form-to-any-api' ); ?></strong> <?php esc_html_e( 'field.', 'contact-form-to-any-api' ); ?></li>
+                        <li><?php echo wp_kses_post(__( 'Input the URL for your CRM or API in the <strong>API URL</strong> field.', 'contact-form-to-any-api' )); ?></li>
                         <li><?php esc_html_e( 'Example:', 'contact-form-to-any-api' ); ?> 
                             <pre>
   <?php esc_html_e( 'https://api.mailbluster.com/api/leads/', 'contact-form-to-any-api' ); ?>
@@ -55,7 +56,7 @@
                 <li>
                     <strong><?php esc_html_e( 'Add Header Requests', 'contact-form-to-any-api' ); ?></strong>
                     <ul>
-                        <li><?php esc_html_e( 'Include the necessary headers for the API in the', 'contact-form-to-any-api' ); ?> <strong><?php esc_html_e( 'Header Request', 'contact-form-to-any-api' ); ?></strong> <?php esc_html_e( 'field. Examples:', 'contact-form-to-any-api' ); ?></li>
+                        <li><?php echo wp_kses_post(__( 'Include the necessary headers for the API in the <strong>Header Request</strong> field. ', 'contact-form-to-any-api' )); ?><?php esc_html_e( 'Examples:', 'contact-form-to-any-api' ); ?></li>
                         <pre>
   Authorization: MY_API_KEY
   Authorization: Bearer xxxxxxx
@@ -87,15 +88,15 @@
 
                 <li>
                     <strong><?php esc_html_e( 'Select Input Type', 'contact-form-to-any-api' ); ?></strong>
-                    <ul>
-                        <li><?php esc_html_e( 'Choose your input type:', 'contact-form-to-any-api' ); ?> <strong><?php esc_html_e( 'JSON', 'contact-form-to-any-api' ); ?></strong> <?php esc_html_e( 'or', 'contact-form-to-any-api' ); ?> <strong><?php esc_html_e( 'GET/POST', 'contact-form-to-any-api' ); ?></strong>.</li>
+                    <ul>                        
+                        <li><?php echo wp_kses_post(__( 'Choose your input type: <strong>JSON</strong> or <strong>GET/POST</strong>.', 'contact-form-to-any-api' )); ?></li>
                     </ul>
                 </li>
 
                 <li>
                     <strong><?php esc_html_e( 'Select API Method', 'contact-form-to-any-api' ); ?></strong>
                     <ul>
-                        <li><?php esc_html_e( 'Specify the HTTP method your API uses:', 'contact-form-to-any-api' ); ?> <strong><?php esc_html_e( 'POST', 'contact-form-to-any-api' ); ?></strong> <?php esc_html_e( 'or', 'contact-form-to-any-api' ); ?> <strong><?php esc_html_e( 'GET', 'contact-form-to-any-api' ); ?></strong>.</li>
+                        <li><?php echo wp_kses_post(__( 'Specify the HTTP method your API uses: <strong>POST</strong> or <strong>GET</strong>.', 'contact-form-to-any-api' )); ?></li>
                     </ul>
                 </li>
 
@@ -167,7 +168,10 @@
                    }
   }         </pre>
 
-                    <h5 class="mt-5 mb-2"><?php echo wp_kses(__('<b>Your API has Nested or Multilevel format of JSON?</b>','contact-form-to-any-api'), array('b' => array())); ?></h5>
+                    <h5 class="mt-5 mb-2"><?php echo wp_kses_post(__('<b>Your API has Nested or Multilevel format of JSON?</b>','contact-form-to-any-api'), array('b' => array())); ?></h5>
+                    
+                    <h5 class="mt-5 mb-2"><?php echo wp_kses_post(__( 'Click on <strong>Add New CF7 API</strong>.', 'contact-form-to-any-api' )); ?></h5>
+
                     <h5><?php echo wp_kses(__('<b> Don\'t worry, our development team can customize our plugin as per your need.</b><p class="get_pro_version-btn"><a target="_blank" href="https://www.contactformtoapi.com/#contact_us">Click here to contact us</a></p>','contact-form-to-any-api'), array('b' => array(),'p' => array('class' => array()),'a' => array('href' => array(), 'target' => array()))); ?></h5>
                 </li>
             </ol>
@@ -250,6 +254,71 @@
            <h5><?php echo wp_kses(__( 'Email : <a href="mailto:support@contactformtoapi.com">support@contactformtoapi.com</a>', 'contact-form-to-any-api' ), array('a' => array('href' => array() ) ) ); ?></h5>
            <p class="text-center"><?php echo wp_kses(__( 'Need Help with Plugin Integration ? <b><a target="_blank" href="https://www.contactformtoapi.com/#contact_us">Click to Connect us</a></b>', 'contact-form-to-any-api' ), array('b' => array(), 'a' => array('href' => array(), 'target' => array() ) ) ); ?></p>
         </div>
+
+        <!-- other plugins -->
+        <div class="tab-pane fade cf7anyapi_full_width" id="v-pills-other-plugins" role="tabpanel" aria-labelledby="v-pills-other-plugins-tab">
+            <h5 class="tab-title"><?php esc_html_e( 'Our Other Plugins', 'contact-form-to-any-api' ); ?></h5><br>
+
+            <div class="our-plugin-list">
+                <div class="our-plugin-card">
+                    <div class="our-plugin-icon">
+                        <img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . 'images/contact-form-to-any-api-icon.svg' ); ?>" alt="<?php echo esc_attr__( 'Plugin Icon', 'contact-form-to-any-api' ); ?>">
+                    </div>
+                    <div class="our-plugin-details">
+                        <h4><?php echo esc_html__( 'Contact Form 7 to Any API PRO', 'contact-form-to-any-api' ); ?></h4>
+                        <ul>
+                            <li><?php echo esc_html__( 'Support Multi Level or Any Format of JSON', 'contact-form-to-any-api' ); ?></li>
+                            <li><?php echo esc_html__( 'Option to Choose when to send data to API – Before CF7 mail sent OR After mail sent', 'contact-form-to-any-api' ); ?></li>
+                            <li><?php echo esc_html__( 'Compatible with Multiline files upload for contact form 7 Plugin', 'contact-form-to-any-api' ); ?></li>
+                            <li><?php echo esc_html__( 'File input supported – Uploaded file will convert into BASE64 and send to API', 'contact-form-to-any-api' ); ?></li>
+                        </ul>
+                        <span class="our-plugin-badge"><?php echo esc_html__( 'PRO', 'contact-form-to-any-api' ); ?></span>
+                        <a target="_blank" href="<?php echo esc_url( 'https://www.contactformtoapi.com/pricing/' ); ?>">
+                            <?php echo esc_html__( 'Get Now', 'contact-form-to-any-api' ); ?>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="our-plugin-card">
+                    <div class="our-plugin-icon">
+                        <img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . 'images/contact-form-to-any-api-icon.svg' ); ?>" alt="<?php echo esc_attr__( 'Plugin Icon', 'contact-form-to-any-api' ); ?>">
+                    </div>
+                    <div class="our-plugin-details">
+                        <h4><?php echo esc_html__( 'OAuth 2.0 Customization Addon for Contact Form 7 to Any API PRO', 'contact-form-to-any-api' ); ?></h4>
+                        <ul>
+                            <li><?php echo esc_html__( 'OAuth 2.0 Authentication & Integration for Any API.', 'contact-form-to-any-api' ); ?></li>
+                            <li><?php echo esc_html__( 'Dynamic Access and Refresh Tokens Update automatically based on expiration time.', 'contact-form-to-any-api' ); ?></li>
+                            <li><?php echo esc_html__( 'JWT Token Integration with Any API.', 'contact-form-to-any-api' ); ?></li>
+                            <li><?php echo esc_html__( 'Create a JSON file for each entry and upload it to an FTP server based on your required JSON payload or format.', 'contact-form-to-any-api' ); ?></li>
+                        </ul>
+                        <span class="our-plugin-badge"><?php echo esc_html__( 'PRO Addon', 'contact-form-to-any-api' ); ?></span>
+                        <a target="_blank" href="<?php echo esc_url( 'https://www.contactformtoapi.com/pricing/' ); ?>">
+                            <?php echo esc_html__( 'Get Now', 'contact-form-to-any-api' ); ?>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="our-plugin-card">
+                    <div class="our-plugin-icon">
+                        <img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . 'images/wpform-to-any-api-icon.svg' ); ?>" alt="<?php echo esc_attr__( 'Plugin Icon', 'contact-form-to-any-api' ); ?>">
+                    </div>
+                    <div class="our-plugin-details">
+                        <h4><?php echo esc_html__( 'Connect WPForm to Any API', 'contact-form-to-any-api' ); ?></h4>
+                        <ul>
+                            <li><?php echo esc_html__( 'Send WPForm Leads to Remote API’s such as CRM and other Extrenal API using POST/GET' ); ?></li>
+                            <li><?php echo esc_html__( 'Create unlimited connection with any API', 'contact-form-to-any-api' ); ?></li>
+                            <li><?php echo esc_html__( 'Supports Simple & Fixed Format of JSON', 'contact-form-to-any-api' ); ?></li>
+                            <li><?php echo esc_html__( 'API Logs Management with submitted data and API response', 'contact-form-to-any-api' ); ?></li>
+                        </ul>
+                        <span class="our-plugin-badge"><?php echo esc_html__( 'Free', 'contact-form-to-any-api' ); ?></span>
+                        <a target="_blank" href="<?php echo esc_url( 'https://wordpress.org/plugins/connect-wpform-to-any-api/' ); ?>">
+                            <?php echo esc_html__( 'Download Now', 'contact-form-to-any-api' ); ?>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         </div>
     </div>
     <!-- <div class="col-3 image">
