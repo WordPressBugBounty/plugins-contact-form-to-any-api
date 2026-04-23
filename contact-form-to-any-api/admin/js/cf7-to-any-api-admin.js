@@ -38,7 +38,8 @@
 			var data = {
 				'form_id': form_id,
 				'post_id': post_id,
-	            'action': 'cf7_to_any_api_get_form_field'
+	            'action': 'cf7_to_any_api_get_form_field',
+	            'nonce': cf7_to_any_api_ajax_object.cf7_to_any_api_nonce
 			};
 
 			var cf7anyapi_response = cf7anyapi_ajax_request(data);
@@ -99,7 +100,7 @@
 	        }
 		});
 
-		// Delete Logo
+		// Delete Logs
 		$('.cf7anyapi_bulk_log_delete').on('click',function(){
 			if(confirm("Are you Sure you want to delete all logs records?") == true){
 				const selected = $('input[name="log_ids[]"]:checked').map(function() {
@@ -151,7 +152,7 @@
 			});
 		}
 
-		// Delete Single log data
+		// Delete Form Entry data
 		if(jQuery('#cf7toanyapi_table').length){
 			var table = jQuery('#cf7toanyapi_table').DataTable({
 				'columnDefs': [
@@ -162,12 +163,11 @@
 					   },
 					   className: 'cf7toanyapi-form-checkbox',
 					}
-					
-				 ],
-				 'select': {
+				],
+				'select': {
 					'style': 'multi'
-				 },
-				 'order': [[1, 'asc']],
+				},
+				'order': [[1, 'asc']],
 				dom: 'Blfrtip',
 			    autoWidth: false,
 				scrollX: true,
@@ -181,33 +181,27 @@
 							jQuery('.cf7toanyapi_dataid.selected').each(function(i){
 								data_ids.push($(this).attr('data-id'));
 							});
-							//console.log(array);
 							var nonce = jQuery('#cf_to_any_api_entrie_del_nonce').val();
-							//let data_ids = array.toString();
-							if(confirm("Are you Sure you want to delete selected records?") == true)
-							{
-
+							if(confirm("Are you Sure you want to delete selected records?") == true){
 								return jQuery.ajax({
-							            type: "POST",
-							            url:cf7_to_any_api_ajax_object.cf7_to_any_api_ajax_url,
-							            dataType: "json",
-							            data:{
-	      									action : 'delete_records',
-	      									nonce : nonce,
-								            id : data_ids,
-								        },
-							            success: function (data) {
-	        								var status = data['status'];
-	        								if(status == 1)
-	        								{
-	        									window.location.reload();
-	        								}
-
-	      								},
-									    error: function (jqXHR, textStatus, errorThrown) {
-									        console.log(jqXHR + " :: " + textStatus + " :: " + errorThrown);
-									    },
-							       });
+						            type: "POST",
+						            url:cf7_to_any_api_ajax_object.cf7_to_any_api_ajax_url,
+						            dataType: "json",
+						            data:{
+      									action : 'delete_entries_records',
+      									nonce : nonce,
+							            id : data_ids,
+							        },
+						            success: function (data) {
+        								var status = data['status'];
+        								if(status == 1){
+        									window.location.reload();
+        								}
+      								},
+								    error: function (jqXHR, textStatus, errorThrown) {
+								        console.log(jqXHR + " :: " + textStatus + " :: " + errorThrown);
+								    },
+						       });
 							}
 						}
 					},

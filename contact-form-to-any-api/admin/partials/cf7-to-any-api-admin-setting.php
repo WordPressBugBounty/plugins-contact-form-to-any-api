@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Provide a admin area view for the plugin
  *
@@ -13,7 +14,10 @@
 
 $cf7anyapi_object = new Cf7_To_Any_Api();
 $cf7anyapi_options = $cf7anyapi_object->setting_get_options();
-if(isset($_GET['tab']) && $_GET['tab'] == 'status'){?>
+
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : '';
+if ( 'status' === $tab ) {?>
     <div class="wrap cf-settings-wrap cf-sys-status">
         <h1 class="wp-heading-inline"><?php esc_html_e( 'CF7 to Any API Settings', 'contact-form-to-any-api' ); ?></h1> 
         <h2 class="screen-reader-text"><?php esc_html_e( 'CF7 to Any API Settings ', 'contact-form-to-any-api' ); ?></h2>
@@ -63,16 +67,18 @@ if(isset($_GET['tab']) && $_GET['tab'] == 'status'){?>
     <div class="wrap cf-settings-wrap cf-settings">
         <h1 class="wp-heading-inline"><?php esc_html_e( 'CF7 to Any API Settings', 'contact-form-to-any-api' ); ?></h1> 
         <h2 class="screen-reader-text"><?php esc_html_e( 'CF7 to Any API Settings ', 'contact-form-to-any-api' ); ?></h2>
+        <?php 
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        if(isset($_GET["update-status"])): ?>
+            <div class="notice notice-success is-dismissible">
+                <p><?php echo esc_html('Settings saved successfully.' , 'contact-form-to-any-api'); ?></p>
+            </div>
+        <?php endif; ?>
         <nav class="nav-tab-wrapper cf-tab-wrapper">
             <a href="<?php echo esc_url(admin_url('edit.php?post_type=cf7_to_any_api&page=cf7anyapi_setting')); ?>" class="nav-tab nav-tab-active"><?php esc_html_e( 'Settings', 'contact-form-to-any-api' ); ?></a>
             <a href="<?php echo esc_url(admin_url('edit.php?post_type=cf7_to_any_api&page=cf7anyapi_setting&tab=status')); ?>" class="nav-tab"><?php esc_html_e( 'System Status', 'contact-form-to-any-api' ); ?></a>     
         </nav>
-        <?php 
-        if(isset($_GET["update-status"])): ?>
-            <div class="notice notice-success is-dismissible w-100">
-                <p><?php echo esc_html('Settings saved successfully.!!' , 'contact-form-to-any-api'); ?></p>
-            </div>
-        <?php endif; ?>
+        
         <div class="cfs-box">
             <div class="cf-head" bis_skin_checked="1">
                 <div class="title-wrapper">

@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 if( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
@@ -99,58 +100,97 @@ class cf7anyapi_List_Table extends WP_List_Table{
 
     public static function default_logs_data($page_number = 1, $form_id = null){
 		global $wpdb;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if(!empty($_REQUEST['paged'])){
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$page_number = absint(wp_unslash($_REQUEST['paged']));
 		}
 
 		$sql = "SELECT * FROM {$wpdb->prefix}cf7anyapi_logs WHERE 1=1";
-		
+		$params = array();
+
 		if ( $form_id ) {
-            $sql .= $wpdb->prepare(" AND form_id = %d", $form_id);
+            $sql .= " AND form_id = %d";
+			$params[] = $form_id;
         }
 
         // Allow list for ordering
-        $allowed_order   = array( 'asc', 'desc' );
         $allowed_orderby = array( 'form_id', 'post_id', 'created_date' );
+        $orderby = 'created_date';
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['orderby'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		    $orderby_raw = sanitize_text_field( wp_unslash( $_GET['orderby'] ) );
+		    if ( in_array( $orderby_raw, $allowed_orderby, true ) ) {
+		        $orderby = $orderby_raw;
+		    }
+		}
 
-        if ( ! empty( $_REQUEST['orderby'] ) ) {
-            $orderby = sanitize_sql_orderby( wp_unslash( $_REQUEST['orderby'] ) );
-            $orderby = in_array( $orderby, $allowed_orderby, true ) ? $orderby : 'created_date';
-            $order = ! empty( $_REQUEST['order'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ) : 'asc';
-            $order = in_array( $order, $allowed_order, true ) ? $order : 'asc';
-            $sql .= " ORDER BY $orderby $order";
+        $order = 'DESC';
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        if ( isset( $_GET['order'] ) ) {
+        	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		    $order_raw = sanitize_text_field( wp_unslash( $_GET['order'] ) );
+		    if ( 'asc' === strtolower( $order_raw ) ) {
+		        $order = 'ASC';
+		    }
+		}
+
+        // We use literal strings for ORDER BY and limit variables to satisfy the Plugin Check
+        if ( 'form_id' === $orderby ) {
+            if ( 'ASC' === $order ) {
+                $sql .= " ORDER BY form_id ASC";
+            } else {
+                $sql .= " ORDER BY form_id DESC";
+            }
+        } elseif ( 'post_id' === $orderby ) {
+            if ( 'ASC' === $order ) {
+                $sql .= " ORDER BY post_id ASC";
+            } else {
+                $sql .= " ORDER BY post_id DESC";
+            }
         } else {
-            $sql .= ' ORDER BY created_date DESC';
+            if ( 'ASC' === $order ) {
+                $sql .= " ORDER BY created_date ASC";
+            } else {
+                $sql .= " ORDER BY created_date DESC";
+            }
         }
 
         // Limit and offset for pagination
         $limit  = 10;
         $offset = ( $page_number - 1 ) * $limit;
 
-        return $wpdb->get_results( $wpdb->prepare( "$sql LIMIT %d OFFSET %d", $limit, $offset ), 'ARRAY_A' );
+        $sql .= " LIMIT %d OFFSET %d";
+        $params[] = $limit;
+        $params[] = $offset;
+
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
+        return $wpdb->get_results( $wpdb->prepare( $sql, $params ), 'ARRAY_A' );
 	}
 
 	public static function get_logs_data( $form_id = null ){
 		global $wpdb;
-		$cf7anyapi_logs_table = esc_sql($wpdb->prefix . 'cf7anyapi_logs');
 		if ( ! empty( $form_id ) ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
             return $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT * FROM {$cf7anyapi_logs_table} WHERE form_id = %d",
+					"SELECT * FROM {$wpdb->prefix}cf7anyapi_logs WHERE form_id = %d",
 					$form_id
 				),
-				ARRAY_A
+				'ARRAY_A'
 			);
         }
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         return $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT * FROM {$cf7anyapi_logs_table} WHERE 1=1"
-			),
-			ARRAY_A
+			"SELECT * FROM {$wpdb->prefix}cf7anyapi_logs WHERE 1=1",
+			'ARRAY_A'
 		);
     }
 
 	public function prepare_items(){
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$form_id = !empty($_GET['cf7_form_filter']) ? absint($_GET['cf7_form_filter']) : null;
         $this->logs_data = $this->get_logs_data( $form_id );
 
@@ -190,9 +230,11 @@ class cf7anyapi_List_Table extends WP_List_Table{
 		$allowed_order   = array( 'asc', 'desc' );
         $allowed_orderby = array( 'form_id', 'post_id', 'created_date' );
 
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $orderby = ( ! empty( $_GET['orderby'] ) ) ? sanitize_text_field( wp_unslash( $_GET['orderby'] ) ) : 'form_id';
         $orderby = in_array( $orderby, $allowed_orderby, true ) ? $orderby : 'form_id';
 
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $order = ( ! empty( $_GET['order'] ) ) ? sanitize_text_field( wp_unslash( $_GET['order'] ) ) : 'asc';
         $order = in_array( $order, $allowed_order, true ) ? $order : 'asc';
 
@@ -203,6 +245,7 @@ class cf7anyapi_List_Table extends WP_List_Table{
 
 	public function extra_tablenav( $which ) {
 	    if ( $which === 'top' ) {
+	    	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	        $selected_form = isset($_GET['cf7_form_filter']) ? absint($_GET['cf7_form_filter']) : '';
 	        $cf7_forms = get_posts( array(
 	            'post_type'      => 'wpcf7_contact_form',
@@ -237,6 +280,4 @@ class cf7anyapi_List_Table extends WP_List_Table{
 	        esc_attr($item['id']) // assuming `id` is the primary key
 	    );
 	}
-
-
 }

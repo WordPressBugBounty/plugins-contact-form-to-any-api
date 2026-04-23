@@ -575,8 +575,7 @@ p.pro_tab_description { font-size: 17px; line-height: 24px; }
     height: 32px;
     border: 1px solid #189b9b;
 }
-.tab-index:after {    
-    color: var(--wp-admin-theme-color);
+.tab-index:after { 
     font-weight: 700;
     justify-content: center;
     display: flex;
@@ -1384,8 +1383,10 @@ select#cf7anyapi_predefined_tag_select {
     font-style: italic;
     font-size: 14px;
 }
-.cf7anyapi_logs th#status, .cf7anyapi_logs th#created_date, 
-.cf7anyapi_logs th#form_id, .cf7anyapi_logsth#post_id {
+.cf7anyapi_logs th#form_id, 
+.cf7anyapi_logs th#post_id, 
+.cf7anyapi_logs th#status, 
+.cf7anyapi_logs th#created_date{
     width: 12%;
 }
 #cf7anyapi-log-popup .cf7anyapi-log-content pre {
@@ -1414,11 +1415,6 @@ select#cf7anyapi_predefined_tag_select {
 }
 .cf7anyapi-form-mapping-fields span.selected_form_empty {
     padding: 0 20px;
-}
-#menu-posts-cf7_to_any_api .wp-submenu li:last-child a {
-    background-color: #00a32a !important;
-    color: #fff !important;
-    font-weight: 600 !important;
 }
 
 .update_pro_wrapper {
@@ -1566,7 +1562,9 @@ select#cf7anyapi_predefined_tag_select {
     }
     
 }
+@media screen and (max-width: 1300px){
 
+}
 @media screen and (max-width: 1199px){
     .cf7anyapi_maping_label ul li:nth-child(3n) {
         border-right: 0;
@@ -1599,10 +1597,6 @@ select#cf7anyapi_predefined_tag_select {
 }
 
 
-/* Popup CSS  */
-@media screen and (max-width: 1500px){
-    
-}
 @media(min-width: 961px) {
     .cf7-any-api-modal {
         height: calc(100vh - 32px);

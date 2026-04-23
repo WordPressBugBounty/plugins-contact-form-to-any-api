@@ -73,5 +73,29 @@ class Cf7_To_Any_Api_Activator {
         ) $charset_collate;";
         
         dbDelta( $sql );
+
+        // Entry Table
+        $table1 = $wpdb->prefix . 'cf7anyapi_entry_id';
+        $table2 = $wpdb->prefix . 'cf7anyapi_entries';
+
+        $sql1 = "CREATE TABLE $table1 (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            Created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (id)
+        ) $charset_collate;";
+
+        $sql2 = "CREATE TABLE $table2 (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            form_id int(11),
+            data_id int(11),
+            field_name varchar(255),
+            field_value varchar(255),
+            date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (id),
+            KEY data_id (data_id)
+        ) $charset_collate;";
+
+        dbDelta( $sql1 );
+        dbDelta( $sql2 );
     }
 }

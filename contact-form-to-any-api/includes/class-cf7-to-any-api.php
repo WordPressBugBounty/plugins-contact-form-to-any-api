@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * The file that defines the core plugin class
  *
@@ -120,12 +121,6 @@ class Cf7_To_Any_Api {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-cf7-to-any-api-admin.php';
 
-		/**
-		 * The class responsible for defining all actions that occur in the public-facing
-		 * side of the site.
-		 */
-		// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-cf7-to-any-api-public.php';
-
 		$this->loader = new Cf7_To_Any_Api_Loader();
 
 	}
@@ -171,8 +166,8 @@ class Cf7_To_Any_Api {
 		$this->loader->add_filter('plugin_action_links',$plugin_admin,'cf7anyapi_add_settings_link',10,2);
 		$this->loader->add_filter('manage_cf7_to_any_api_posts_columns',$plugin_admin,'cf7_to_any_api_filter_posts_columns');
 		$this->loader->add_filter('manage_edit-cf7_to_any_api_sortable_columns',$plugin_admin,'cf7_to_any_api_sortable_columns');
-		$this->loader->add_action('plugins_loaded',$plugin_admin,'cf7toanyapi_add_new_table',10, 2);
-		$this->loader->add_action('wp_ajax_delete_records',$plugin_admin,'delete_cf7_records',10, 2);
+		$this->loader->add_action('plugins_loaded',$plugin_admin,'cf7toanyapi_check_db_upgrade',10, 2);
+		$this->loader->add_action('wp_ajax_delete_entries_records',$plugin_admin,'delete_entries_records',10, 2);
 		$this->loader->add_action('admin_post_save_cf7_to_any_api_update_settings',$plugin_admin,'cf7_to_any_api_update_settings');
 		$this->loader->add_action('manage_cf7_to_any_api_posts_custom_column', $plugin_admin, 'cf7_to_any_api_posts_custom_column', 10,2);
 		$this->loader->add_action('wp_ajax_cf7_to_any_api_toggle_status',  $plugin_admin, 'cf7_to_any_api_toggle_status_callback' );
@@ -307,7 +302,8 @@ class Cf7_To_Any_Api {
 	        if(!isset($data_sorted[$v->data_id])){
 	            $data_sorted[$v->data_id] = array();
 	        }
-	        $data_sorted[$v->data_id][$v->field_name] = (string) apply_filters('cf7toanyapi_entry_value', trim(wp_unslash($v->field_value)), $v->field_name);
+	        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+	        $data_sorted[$v->data_id][$v->field_name] = (string) apply_filters('cf7_to_api_entry_value', trim(wp_unslash($v->field_value)), $v->field_name);
 	    }
 
 	    return $data_sorted;
@@ -317,8 +313,14 @@ class Cf7_To_Any_Api {
 
 	    global $wpdb;
 		$fid = (int)$fid;
-		$data_entry_table_name = esc_sql($wpdb->prefix.'cf7anyapi_entries');	  
-	    $data = $wpdb->get_results( $wpdb->prepare("SELECT `field_name` FROM `{$data_entry_table_name}` WHERE form_id = %d GROUP BY `field_name` ORDER BY `id`", $fid));
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
+		$data = $wpdb->get_results(
+        	$wpdb->prepare(
+	        	"SELECT `field_name` FROM {$wpdb->prefix}cf7anyapi_entries WHERE form_id = %d GROUP BY `field_name` ORDER BY `id`",
+	            $fid
+	        )
+	    );
 	    $fields = array();
 		if(!empty($data)){
 			foreach ($data as $k => $v) {
@@ -336,7 +338,8 @@ class Cf7_To_Any_Api {
 		//Check if filter is true or not
 	    if ($filter) {
 			//Get all fields information as per Setting screen
-	        $fields = (array) apply_filters('cf7toanyapi_admin_fields', $fields, $fid);
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+	        $fields = (array) apply_filters('cf7_to_api_admin_fields', $fields, $fid);
 	    }
 
 	    return $fields;

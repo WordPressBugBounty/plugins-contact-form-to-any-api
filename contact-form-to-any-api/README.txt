@@ -4,7 +4,7 @@ Tags: contact form 7, rest api, crm, webhook, integration
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 3.0.3
+Stable tag: 3.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,7 @@ Transform your Contact Form 7 forms into automation-ready data pipelines with th
 - **Works with 200+ CRMs and APIs**: Integrate with HubSpot, Zoho, Salesforce, and many more.  
 - **Multisite Compatible**: Works seamlessly across WordPress networks.  
 - **WPML Compatible**: Works seamlessly with multilingual sites.  
+- **File Uploads to API** - automatically converts files to BASE64  
 
 == Upgrade to PRO for Advanced Integrations ==
 
@@ -54,7 +55,6 @@ Unlock advanced flexibility and full control with **[Contact Form 7 to Any API P
 
 - **Unlimited API Connections** per site  
 - **Multi-level / Any JSON Structure** support  
-- **File Uploads to API** - automatically converts files to BASE64  
 - **Multiple File Upload Field Support**  
 - **Define Integer Fields** – map numeric fields precisely 
 - **Priority Support** for faster assistance  
@@ -210,9 +210,26 @@ No. The plugin is lightweight and optimized for WordPress performance.
 
 == Changelog ==
 
+
+= 3.0.5 =
+
+* Release Date: 17 April 2026
+
+* Fix: Added missing `current_user_can` authorization checks to AJAX handlers to secure entries deletion.
+* Fix: Refactored and separated complex nonce verification logic to prevent check bypassing.
+* Fix: Addressed false-positive PHPCS nonces warnings for read-only GET filters on the admin entries page.
+
+= 3.0.4 =
+
+* Release Date: 13 April 2026* 
+
+* Fix: Security issue fixes and update
+* Fix: Code quality improvement
+* Fix: Warning & Errors fixes
+
 = 3.0.3 =
 
-* Release Date: 22 January 2026
+* Release Date: 22 January 2026* 
 
 * New: Added conditional field support (Equals / Not Equals)
 * Improvement: Code cleanup and performance enhancements
