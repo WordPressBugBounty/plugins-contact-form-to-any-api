@@ -183,7 +183,11 @@ class Cf7_To_Any_Api {
 		// Admin Widget add
 		$this->loader->add_action('wp_dashboard_setup', $plugin_admin, 'cf7anyapi_add_dashboard_widget');
 		// Plugin links
-		$this->loader->add_filter('plugin_row_meta', $plugin_admin, 'cf7anyapi_add_plugin_links', 10, 2);	
+		$this->loader->add_filter('plugin_row_meta', $plugin_admin, 'cf7anyapi_add_plugin_links', 10, 2);
+
+		// Auto Delete Logs: register the WP-Cron cleanup callback.
+		// Scheduling/unscheduling is handled inside cf7_to_any_api_update_settings() on settings save.
+		$this->loader->add_action('cf7anyapi_daily_log_cleanup', $plugin_admin, 'cf7anyapi_auto_delete_old_logs');
 
 	}
 
@@ -410,6 +414,11 @@ class Cf7_To_Any_Api {
 		$setting_options['cf7_to_api_before_mail_sent'] = get_option('cf7_to_api_before_mail_sent');
 		$setting_options['cf7_to_api_log_hide'] = get_option('cf7_to_api_log_hide');
 		$setting_options['cf7_to_api_entry_hide'] = get_option('cf7_to_api_entry_hide');
+		$setting_options['cf7_to_api_failure_email_enable'] = get_option('cf7_to_api_failure_email_enable');
+		$setting_options['cf7_to_api_failure_email_recipients'] = get_option('cf7_to_api_failure_email_recipients', get_option('admin_email'));
+		$setting_options['cf7_to_api_failure_email_throttle'] = get_option('cf7_to_api_failure_email_throttle', 5);
+		$setting_options['cf7_to_api_auto_delete_logs'] = get_option('cf7_to_api_auto_delete_logs');
+		$setting_options['cf7_to_api_auto_delete_days'] = get_option('cf7_to_api_auto_delete_days', 90);
 		return $setting_options;
 	}
 

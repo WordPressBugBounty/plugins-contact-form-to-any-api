@@ -22,9 +22,22 @@ class cf7anyapi_List_Table extends WP_List_Table{
   	public function column_default($item, $column_name){
     	switch($column_name){ 
         	case 'form_id':
-        		return '<a href="'.esc_url(site_url())."/wp-admin/admin.php?page=wpcf7&post=".esc_attr($item[ $column_name ])."&action=edit".'" target="_blank">'.esc_html(get_the_title($item[$column_name])).'</a>';
+        		$form_title = get_the_title($item[$column_name]);
+        		if ( empty( $form_title ) ) {
+        			return esc_html( $item[ $column_name ] );
+        		}
+        		return '<a href="'.esc_url(site_url())."/wp-admin/admin.php?page=wpcf7&post=".esc_attr($item[ $column_name ])."&action=edit".'" target="_blank">'.esc_html( $form_title ).'</a>';
         	case 'post_id':
-        		return '<a href="'.esc_url(get_edit_post_link($item[$column_name])).'" target="_blank">'.esc_html(get_the_title($item[$column_name])).'</a>';
+        		$edit_link = get_edit_post_link($item[$column_name]);
+        		$post_title = get_the_title($item[$column_name]);
+        		if ( empty( $edit_link ) ) {
+        			if ( ! empty( $post_title ) ) {
+        				return esc_html( $post_title );
+        			}
+        			/* translators: %d: original post ID of the deleted API integration */
+        			return '<em>' . esc_html( sprintf( __( '(Deleted) #%d', 'contact-form-to-any-api' ), $item[ $column_name ] ) ) . '</em>';
+        		}
+        		return '<a href="'.esc_url( $edit_link ).'" target="_blank">'.esc_html( $post_title ).'</a>';
         	case 'form_data':
         	case 'log':
             	return '<pre>'.esc_html($item[$column_name]).'</pre><span class="view_more">Expand JSON</span>';
@@ -77,7 +90,18 @@ class cf7anyapi_List_Table extends WP_List_Table{
 			                break;
 			        }
 			    }
-			    return '<span class="' . esc_attr($class) . '">' . esc_html($message) . '</span>';
+			    $status_html = '<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px;">';
+			    $status_html .= '<span class="' . esc_attr($class) . '">' . esc_html($message) . '</span>';
+			    if ( is_null( $status ) || $status < 200 || $status >= 300 ) {
+			    	$status_html .= '<a href="' . esc_url( CF7_CURL_DOMAIN . '/pricing/' ) . '" target="_blank" style="color: #2271b1; text-decoration: none; font-weight: 600; font-size: 13px; display: inline-flex; align-items: center; gap: 4px; margin-top: 4px;">';
+			    	$status_html .= '<span class="dashicons dashicons-update" style="font-size: 16px; width: 16px; height: 16px; color: #3b71ca; vertical-align: middle;"></span>';
+			    	$status_html .= esc_html__( 'Retry (PRO)', 'contact-form-to-any-api' );
+			    	$status_html .= ' <span class="dashicons dashicons-lock" style="font-size: 14px; width: 14px; height: 14px; color: #2271b1; vertical-align: middle;"></span>';
+			    	$status_html .= '</a>';
+			    	$status_html .= '<span style="font-size: 11px; color: #646970; margin-left: 20px; line-height: 1.2;">' . esc_html__( 'This is a PRO feature.', 'contact-form-to-any-api' ) . '</span>';
+			    }
+			    $status_html .= '</div>';
+			    return $status_html;
             case 'created_date':
             	return esc_html($item[ $column_name ]);
         	default:

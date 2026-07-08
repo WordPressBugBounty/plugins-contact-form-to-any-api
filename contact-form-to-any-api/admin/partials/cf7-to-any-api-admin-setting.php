@@ -114,7 +114,63 @@ if ( 'status' === $tab ) {?>
                                     <label for="cf7_to_api_entry_hide"></label>
                                 </td>
                             </tr>
+                            <tr>
+                                <th scope="row"><?php esc_html_e( 'Auto Delete Logs', 'contact-form-to-any-api' ); ?></th>
+                                <td class="with-label">
+                                    <input type="checkbox" name="cf7_to_api_auto_delete_logs" id="cf7_to_api_auto_delete_logs" value="1" <?php checked( ! empty( $cf7anyapi_options['cf7_to_api_auto_delete_logs'] ) ); ?> />
+                                    <label for="cf7_to_api_auto_delete_logs"></label>
+                                    <small><?php esc_html_e( 'Automatically delete API logs older than the specified number of days.', 'contact-form-to-any-api' ); ?></small>
+                                </td>
+                            </tr>
+                            <tr class="cf7_to_api_auto_delete_days_row" <?php echo empty( $cf7anyapi_options['cf7_to_api_auto_delete_logs'] ) ? 'style="display:none;"' : ''; ?>>
+                                <th scope="row"><?php esc_html_e( 'Auto Delete Logs After (Days)', 'contact-form-to-any-api' ); ?></th>
+                                <td>
+                                    <?php $auto_delete_days = ! empty( $cf7anyapi_options['cf7_to_api_auto_delete_days'] ) ? absint( $cf7anyapi_options['cf7_to_api_auto_delete_days'] ) : 90; ?>
+                                    <input type="number" name="cf7_to_api_auto_delete_days" id="cf7_to_api_auto_delete_days" class="small-text" min="1" value="<?php echo esc_attr( $auto_delete_days ); ?>" />
+                                    <p class="description"><?php esc_html_e( 'Log entries older than this many days will be automatically deleted. Default is 90 days.', 'contact-form-to-any-api' ); ?></p>
+                                </td>
+                            </tr>
                         </table>
+
+                        <hr />
+                        <div class="cf-head">
+                            <div class="title-wrapper">
+                                <span class="dashicons dashicons-email-alt" style="margin-right: 8px;"></span><h3><?php esc_html_e( 'Email Notification on API Failure', 'contact-form-to-any-api' ); ?></h3>
+                            </div>
+                        </div>
+                        <table class="form-table" width="100%">
+                            <tr>
+                                <th scope="row"><?php esc_html_e( 'Enable failure email alerts', 'contact-form-to-any-api' ); ?></th>
+                                <td class="with-label">
+                                    <input type="checkbox" name="cf7_to_api_failure_email_enable" id="cf7_to_api_failure_email_enable" value="1" <?php checked( ! empty( $cf7anyapi_options['cf7_to_api_failure_email_enable'] ) ); ?> />
+                                    <label for="cf7_to_api_failure_email_enable"></label>
+                                    <small><?php esc_html_e( 'Send an email notification when an API call returns a non-success (non-2xx) HTTP status code.', 'contact-form-to-any-api' ); ?></small>
+                                </td>
+                            </tr>
+                            <tr class="cf7_to_api_failure_email_row" <?php echo empty( $cf7anyapi_options['cf7_to_api_failure_email_enable'] ) ? 'style="display:none;"' : ''; ?>>
+                                <th scope="row"><?php esc_html_e( 'Notification email recipients', 'contact-form-to-any-api' ); ?></th>
+                                <td>
+                                    <input type="text" name="cf7_to_api_failure_email_recipients" id="cf7_to_api_failure_email_recipients" class="regular-text" value="<?php echo esc_attr( $cf7anyapi_options['cf7_to_api_failure_email_recipients'] ); ?>" placeholder="<?php echo esc_attr( get_option('admin_email') ); ?>" />
+                                    <p class="description"><?php esc_html_e( 'Comma-separated email addresses. Defaults to the site admin email.', 'contact-form-to-any-api' ); ?></p>
+                                </td>
+                            </tr>
+                            <tr class="cf7_to_api_failure_email_row" <?php echo empty( $cf7anyapi_options['cf7_to_api_failure_email_enable'] ) ? 'style="display:none;"' : ''; ?>>
+                                <th scope="row"><?php esc_html_e( 'Email throttle interval', 'contact-form-to-any-api' ); ?></th>
+                                <td>
+                                    <?php $throttle_value = ! empty( $cf7anyapi_options['cf7_to_api_failure_email_throttle'] ) ? intval( $cf7anyapi_options['cf7_to_api_failure_email_throttle'] ) : 5; ?>
+                                    <select name="cf7_to_api_failure_email_throttle" id="cf7_to_api_failure_email_throttle">
+                                        <option value="0" <?php selected( $throttle_value, 0 ); ?>><?php esc_html_e( 'No Limit (send every time)', 'contact-form-to-any-api' ); ?></option>
+                                        <option value="5" <?php selected( $throttle_value, 5 ); ?>><?php esc_html_e( '5 Minutes', 'contact-form-to-any-api' ); ?></option>
+                                        <option value="15" <?php selected( $throttle_value, 15 ); ?>><?php esc_html_e( '15 Minutes', 'contact-form-to-any-api' ); ?></option>
+                                        <option value="30" <?php selected( $throttle_value, 30 ); ?>><?php esc_html_e( '30 Minutes', 'contact-form-to-any-api' ); ?></option>
+                                        <option value="60" <?php selected( $throttle_value, 60 ); ?>><?php esc_html_e( '1 Hour', 'contact-form-to-any-api' ); ?></option>
+                                    </select>
+                                    <p class="description"><?php esc_html_e( 'Minimum time between failure notification emails to prevent flooding.', 'contact-form-to-any-api' ); ?></p>
+                                </td>
+                            </tr>
+                        </table>
+
+
                         <div class="submit">
                             <input type="submit" name="Submit" class="button button-primary" value="<?php echo esc_html( 'Save Changes', 'contact-form-to-any-api'); ?>" />
                         </div>

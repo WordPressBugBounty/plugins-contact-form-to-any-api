@@ -2,9 +2,9 @@
 Contributors: itpathsolutions,wpeople,mayur8991,pateljaymin,thakordarshil
 Tags: contact form 7, rest api, crm, webhook, integration
 Requires at least: 6.0
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.0.5
+Stable tag: 3.0.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,6 +40,8 @@ Transform your Contact Form 7 forms into automation-ready data pipelines with th
 - **Supports JSON (Simple & Fixed Formats)**: Build structured API requests easily.  
 - **Supports Basic & Bearer Authentication**: Connect securely using standard auth methods.  
 - **API Logs Management**: View submitted data, requests, and responses directly in your dashboard.  
+- **Auto Delete Logs**: Automatically purge API logs older than a configurable number of days (default: 90) to keep your database clean without manual effort.  
+- **Email Notifications on API Failure**: Get instant email alerts when an API call returns a non-success response, with configurable recipients and throttle interval to prevent flooding.  
 - **Save Submissions to Database**: Keep every form entry safely stored within WordPress.  
 - **Export CF7 Data**: Export entries in CSV, Excel, PDF, or Print format.  
 - **Manage Entries**: Single or bulk delete saved entries easily.  
@@ -56,7 +58,10 @@ Unlock advanced flexibility and full control with **[Contact Form 7 to Any API P
 - **Unlimited API Connections** per site  
 - **Multi-level / Any JSON Structure** support  
 - **Multiple File Upload Field Support**  
-- **Define Integer Fields** – map numeric fields precisely 
+- **Define Integer Fields** – map numeric fields precisely  
+- **Retry Failed API Logs** – auto and manually retry any failed API call directly from the log screen  
+- **Bulk Retry** – re-send multiple failed API calls at once with a single click  
+- **Advanced Email Notifications on API Failure** – send failure alerts to multiple   
 - **Priority Support** for faster assistance  
 
 **Price:** $29.99/year  
@@ -100,13 +105,19 @@ Connect Contact Form 7 with 200+ CRM and marketing platforms:
 * [Zapier](https://www.contactformtoapi.com/zapier-integration-with-contact-form-to-any-api/)
 * [Mailbluster](https://www.contactformtoapi.com/mailbluster-integration-with-contact-form-to-any-api/)
 * [Clio Grow](https://www.contactformtoapi.com/how-to-send-contact-form-7-leads-to-clio-grow-using-contact-form-to-any-api-pro/)
-* Sage CRM
+* [Salesforce CRM](https://www.contactformtoapi.com/how-to-send-contact-form-7-leads-to-salesforce-using-contact-form-to-any-api-pro/)
+* [Hubspot CRM](https://www.contactformtoapi.com/how-to-integrate-contact-form-7-with-hubspot/)
+* [Pipedrive](https://www.contactformtoapi.com/easily-connect-contact-form-7-with-pipedrive/)
+* [Freshsales](https://www.contactformtoapi.com/how-to-connect-contact-form-7-with-freshsales-crm/)
+* [Airtable](https://www.contactformtoapi.com/how-to-connect-contact-form-7-with-airtable-crm/)
+* [Capsule](https://www.contactformtoapi.com/how-to-connect-contact-form-7-with-capsule-crm/)
+* [EngageBay](https://www.contactformtoapi.com/how-to-connect-contact-form-7-with-engagebay-crm/)
+* Sage CRM  
 * Odoo CRM/ERP System
 * Fluent CRM
 * Lead Post API
 * Virtuagym API
 * Pilotsolution
-* Clio Grow
 * OS Ticket
 * Samdock CRM
 * Mikrowisp
@@ -116,7 +127,6 @@ Connect Contact Form 7 with 200+ CRM and marketing platforms:
 * Network Worldfilia
 * SingleOps
 * GorillaDesk API
-* Hubspot
 * Sembark API
 * Superoffice CRM
 * Flowdesk
@@ -210,10 +220,18 @@ No. The plugin is lightweight and optimized for WordPress performance.
 
 == Changelog ==
 
+= 3.0.6 =
+
+*Release Date: 8 July 2026*
+
+* New: Added email notifications on API request failures.
+* New: Added Auto Delete Logs feature — automatically purge API logs older than a configurable number of days (default: 90 days) via a daily WP-Cron event. Can be enabled and configured from the plugin Settings page.
+* Fix: Resolved PHP 8.1 ltrim null deprecation warnings on the logs screen when posts are deleted.
+* Enhancement - Compatible with latest WordPress version 7.0
 
 = 3.0.5 =
 
-* Release Date: 17 April 2026
+*Release Date: 17 April 2026*
 
 * Fix: Added missing `current_user_can` authorization checks to AJAX handlers to secure entries deletion.
 * Fix: Refactored and separated complex nonce verification logic to prevent check bypassing.
@@ -221,7 +239,7 @@ No. The plugin is lightweight and optimized for WordPress performance.
 
 = 3.0.4 =
 
-* Release Date: 13 April 2026* 
+*Release Date: 13 April 2026* 
 
 * Fix: Security issue fixes and update
 * Fix: Code quality improvement
@@ -229,7 +247,7 @@ No. The plugin is lightweight and optimized for WordPress performance.
 
 = 3.0.3 =
 
-* Release Date: 22 January 2026* 
+*Release Date: 22 January 2026* 
 
 * New: Added conditional field support (Equals / Not Equals)
 * Improvement: Code cleanup and performance enhancements

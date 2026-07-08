@@ -901,6 +901,12 @@ class Cf7_To_Any_Api_Admin {
 	  		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 	  		$wpdb->insert($table,$data);
 	  	}
+
+	  	// Send failure notification email for non-2xx status codes
+	  	$int_status = intval( $status_code );
+	  	if ( $int_status < 200 || $int_status >= 300 ) {
+	  		self::cf7_to_any_api_maybe_send_failure_email( $post_id, $form_id, $status_code, $response, $posted_data );
+	  	}
   	}
 
   	 /*
@@ -1046,18 +1052,44 @@ class Cf7_To_Any_Api_Admin {
 
 		check_admin_referer( -1 , 'save_cf7_to_any_api_update_settings' );
 
-	    // Define the settings you expect
+	    // Define the checkbox settings you expect
 	    $fields = [
 	        'cf7_to_api_before_mail_sent',
 	        'cf7_to_api_log_hide',
 	        'cf7_to_api_entry_hide',
+	        'cf7_to_api_failure_email_enable',
+	        'cf7_to_api_auto_delete_logs',
 	    ];
 
 	    foreach ( $fields as $field ) {
 	        $value = isset($_POST[$field]) ? absint( sanitize_text_field( wp_unslash($_POST[$field]) ) ) : 0;
 	        update_option( $field, $value );
 	    }
-	    
+
+	    // Auto Delete Logs — days value
+	    if ( isset( $_POST['cf7_to_api_auto_delete_days'] ) ) {
+	        $days = absint( sanitize_text_field( wp_unslash( $_POST['cf7_to_api_auto_delete_days'] ) ) );
+	        $days = max( 1, $days ); // minimum 1 day
+	        update_option( 'cf7_to_api_auto_delete_days', $days );
+	    }
+
+	    // Email notification recipients (sanitize each email)
+	    if ( isset( $_POST['cf7_to_api_failure_email_recipients'] ) ) {
+	        $raw_recipients = sanitize_text_field( wp_unslash( $_POST['cf7_to_api_failure_email_recipients'] ) );
+	        $emails = array_map( 'trim', explode( ',', $raw_recipients ) );
+	        $valid_emails = array_filter( $emails, 'is_email' );
+	        update_option( 'cf7_to_api_failure_email_recipients', implode( ', ', $valid_emails ) );
+	    }
+
+	    // Email throttle interval
+	    if ( isset( $_POST['cf7_to_api_failure_email_throttle'] ) ) {
+	        $throttle = absint( sanitize_text_field( wp_unslash( $_POST['cf7_to_api_failure_email_throttle'] ) ) );
+	        update_option( 'cf7_to_api_failure_email_throttle', $throttle );
+	    }
+
+	    // Schedule or unschedule the auto-delete cron event based on the saved option.
+	    $this->cf7anyapi_schedule_log_cleanup();
+
 	    if ( isset( $_POST['_wp_http_referer'] ) ) {
 	        $redirect_url = esc_url_raw(wp_unslash( $_POST['_wp_http_referer'] ));
 		    wp_safe_redirect(
@@ -1173,6 +1205,217 @@ class Cf7_To_Any_Api_Admin {
 	    }
 
 	    return true; // fallback
+	}
+
+	/**
+	 * Check settings and throttle, then send a failure notification email.
+	 *
+	 * @since 3.1.0
+	 * @param int    $post_id     The API integration post ID.
+	 * @param int    $form_id     The CF7 form ID.
+	 * @param mixed  $status_code The HTTP status code.
+	 * @param mixed  $response    The API response body.
+	 * @param mixed  $posted_data The submitted form data.
+	 */
+	private static function cf7_to_any_api_maybe_send_failure_email( $post_id, $form_id, $status_code, $response, $posted_data ) {
+
+		// Check if email notifications are enabled
+		if ( ! get_option( 'cf7_to_api_failure_email_enable' ) ) {
+			return;
+		}
+
+		// Check throttle (transient-based)
+		$throttle_minutes = absint( get_option( 'cf7_to_api_failure_email_throttle', 5 ) );
+		if ( $throttle_minutes > 0 ) {
+			$transient_key = 'cf7_api_failure_email_throttle';
+			if ( get_transient( $transient_key ) ) {
+				return; // Still within throttle window
+			}
+			set_transient( $transient_key, 1, $throttle_minutes * MINUTE_IN_SECONDS );
+		}
+
+		// Get recipients
+		$recipients = get_option( 'cf7_to_api_failure_email_recipients', get_option( 'admin_email' ) );
+		if ( empty( $recipients ) ) {
+			$recipients = get_option( 'admin_email' );
+		}
+
+		// Build email
+		$form_title = get_the_title( $form_id );
+		$api_title  = get_the_title( $post_id );
+		$site_name  = get_bloginfo( 'name' );
+		$logs_url   = admin_url( 'edit.php?post_type=cf7_to_any_api&page=cf7anyapi_logs' );
+
+		// Prepare response for email (truncate if too long)
+		$response_text = is_string( $response ) ? $response : wp_json_encode( $response, JSON_UNESCAPED_UNICODE );
+		if ( strlen( $response_text ) > 500 ) {
+			$response_text = substr( $response_text, 0, 500 ) . '...';
+		}
+
+		/* translators: %s: site name */
+		$subject = sprintf( __( '[%s] API Failure Alert — Contact Form to Any API', 'contact-form-to-any-api' ), $site_name );
+
+		$body = self::cf7_to_any_api_build_failure_email_body(
+			$form_title,
+			$api_title,
+			$status_code,
+			$response_text,
+			$posted_data,
+			$logs_url,
+			$site_name
+		);
+
+		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+
+		wp_mail( $recipients, $subject, $body, $headers );
+	}
+
+	/**
+	 * Build the HTML body for the failure notification email.
+	 *
+	 * @since 3.1.0
+	 * @param string $form_title    The CF7 form title.
+	 * @param string $api_title     The API integration title.
+	 * @param mixed  $status_code   The HTTP status code.
+	 * @param string $response_text The truncated API response.
+	 * @param mixed  $posted_data   The submitted form data.
+	 * @param string $logs_url      URL to the API Logs admin page.
+	 * @param string $site_name     The site name.
+	 * @return string HTML email body.
+	 */
+	private static function cf7_to_any_api_build_failure_email_body( $form_title, $api_title, $status_code, $response_text, $posted_data, $logs_url, $site_name ) {
+
+		$form_title = ! empty( $form_title ) ? esc_html( $form_title ) : esc_html__( 'Unknown Form', 'contact-form-to-any-api' );
+		$api_title  = ! empty( $api_title ) ? esc_html( $api_title ) : esc_html__( 'Unknown API', 'contact-form-to-any-api' );
+
+		// Build submitted data table rows
+		$data_rows = '';
+		if ( ! empty( $posted_data ) && is_array( $posted_data ) ) {
+			foreach ( $posted_data as $key => $value ) {
+				// Skip internal CF7 fields
+				if ( strpos( $key, '_wpcf7' ) === 0 ) {
+					continue;
+				}
+				$display_value = is_array( $value ) ? implode( ', ', array_map( 'sanitize_text_field', $value ) ) : sanitize_text_field( $value );
+				if ( strlen( $display_value ) > 200 ) {
+					$display_value = substr( $display_value, 0, 200 ) . '...';
+				}
+				$data_rows .= '<tr><td style="padding:6px 12px;border:1px solid #e0e0e0;font-weight:600;color:#333;">' . esc_html( $key ) . '</td><td style="padding:6px 12px;border:1px solid #e0e0e0;color:#555;">' . esc_html( $display_value ) . '</td></tr>';
+			}
+		}
+
+		$body = '
+		<div style="max-width:600px;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">
+			<div style="background:#dc3232;color:#fff;padding:16px 24px;border-radius:6px 6px 0 0;">
+				<h2 style="margin:0;font-size:18px;">&#9888; ' . esc_html__( 'API Failure Alert', 'contact-form-to-any-api' ) . '</h2>
+			</div>
+			<div style="background:#fff;border:1px solid #e0e0e0;border-top:none;padding:24px;border-radius:0 0 6px 6px;">
+				<p style="margin:0 0 16px;color:#555;font-size:14px;">'
+				. esc_html__( 'An API call from your website has failed. Here are the details:', 'contact-form-to-any-api' )
+				. '</p>
+
+				<table style="width:100%;border-collapse:collapse;margin-bottom:20px;font-size:14px;">
+					<tr>
+						<td style="padding:8px 12px;border:1px solid #e0e0e0;background:#f9f9f9;font-weight:600;width:40%;color:#333;">' . esc_html__( 'Site', 'contact-form-to-any-api' ) . '</td>
+						<td style="padding:8px 12px;border:1px solid #e0e0e0;color:#555;">' . esc_html( $site_name ) . ' (' . esc_html( home_url() ) . ')</td>
+					</tr>
+					<tr>
+						<td style="padding:8px 12px;border:1px solid #e0e0e0;background:#f9f9f9;font-weight:600;color:#333;">' . esc_html__( 'Form Name', 'contact-form-to-any-api' ) . '</td>
+						<td style="padding:8px 12px;border:1px solid #e0e0e0;color:#555;">' . $form_title . '</td>
+					</tr>
+					<tr>
+						<td style="padding:8px 12px;border:1px solid #e0e0e0;background:#f9f9f9;font-weight:600;color:#333;">' . esc_html__( 'API Integration', 'contact-form-to-any-api' ) . '</td>
+						<td style="padding:8px 12px;border:1px solid #e0e0e0;color:#555;">' . $api_title . '</td>
+					</tr>
+					<tr>
+						<td style="padding:8px 12px;border:1px solid #e0e0e0;background:#f9f9f9;font-weight:600;color:#333;">' . esc_html__( 'HTTP Status Code', 'contact-form-to-any-api' ) . '</td>
+						<td style="padding:8px 12px;border:1px solid #e0e0e0;color:#dc3232;font-weight:700;">' . esc_html( $status_code ) . '</td>
+					</tr>
+					<tr>
+						<td style="padding:8px 12px;border:1px solid #e0e0e0;background:#f9f9f9;font-weight:600;color:#333;">' . esc_html__( 'API Response', 'contact-form-to-any-api' ) . '</td>
+						<td style="padding:8px 12px;border:1px solid #e0e0e0;color:#555;"><pre style="margin:0;white-space:pre-wrap;word-break:break-word;font-size:12px;background:#f5f5f5;padding:8px;border-radius:4px;">' . esc_html( $response_text ) . '</pre></td>
+					</tr>
+					<tr>
+						<td style="padding:8px 12px;border:1px solid #e0e0e0;background:#f9f9f9;font-weight:600;color:#333;">' . esc_html__( 'Date & Time', 'contact-form-to-any-api' ) . '</td>
+						<td style="padding:8px 12px;border:1px solid #e0e0e0;color:#555;">' . esc_html( current_time( 'mysql' ) ) . '</td>
+					</tr>
+				</table>';
+
+		if ( ! empty( $data_rows ) ) {
+			$body .= '<h3 style="font-size:15px;margin:20px 0 10px;color:#333;">' . esc_html__( 'Submitted Form Data', 'contact-form-to-any-api' ) . '</h3>
+				<table style="width:100%;border-collapse:collapse;margin-bottom:20px;font-size:13px;">'
+				. $data_rows .
+				'</table>';
+		}
+
+		$body .= '<div style="text-align:center;margin-top:20px;">
+					<a href="' . esc_url( $logs_url ) . '" style="display:inline-block;background:#0073aa;color:#fff;padding:10px 24px;text-decoration:none;border-radius:4px;font-size:14px;font-weight:600;">' . esc_html__( 'View API Logs', 'contact-form-to-any-api' ) . '</a>
+				</div>
+
+				<p style="margin:20px 0 0;font-size:12px;color:#999;text-align:center;">'
+				. esc_html__( 'This is an automated email from the Contact Form to Any API plugin.', 'contact-form-to-any-api' )
+				. '<br />'
+				. esc_html__( 'You can manage notification settings from the plugin Settings page.', 'contact-form-to-any-api' )
+				. '</p>
+			</div>
+		</div>';
+
+		return $body;
+	}
+
+	/**
+	 * Schedule or unschedule the daily WP-Cron event for auto-deleting old logs.
+	 *
+	 * Called from cf7_to_any_api_update_settings() when the admin saves the
+	 * Settings page. Registers a recurring daily event when auto-delete is
+	 * enabled, or removes it when the option is disabled.
+	 *
+	 * @since 3.0.7
+	 */
+	public function cf7anyapi_schedule_log_cleanup() {
+		$enabled = get_option( 'cf7_to_api_auto_delete_logs' );
+		$hook    = 'cf7anyapi_daily_log_cleanup';
+
+		if ( $enabled ) {
+			if ( ! wp_next_scheduled( $hook ) ) {
+				wp_schedule_event( time(), 'daily', $hook );
+			}
+		} else {
+			$timestamp = wp_next_scheduled( $hook );
+			if ( $timestamp ) {
+				wp_unschedule_event( $timestamp, $hook );
+			}
+		}
+	}
+
+	/**
+	 * Delete log entries older than the configured number of days.
+	 *
+	 * Fired by the 'cf7anyapi_daily_log_cleanup' WP-Cron event.
+	 * Re-checks the option at runtime so stale cron calls are safely ignored.
+	 *
+	 * @since 3.1.0
+	 */
+	public function cf7anyapi_auto_delete_old_logs() {
+		// Guard: do nothing if the feature has been disabled since the event was scheduled.
+		if ( ! get_option( 'cf7_to_api_auto_delete_logs' ) ) {
+			return;
+		}
+
+		$days = absint( get_option( 'cf7_to_api_auto_delete_days', 90 ) );
+		$days = max( 1, $days ); // safety floor
+
+		global $wpdb;
+		$table = $wpdb->prefix . 'cf7anyapi_logs';
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
+		$wpdb->query(
+			$wpdb->prepare(
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				"DELETE FROM `{$table}` WHERE `created_date` < DATE_SUB( NOW(), INTERVAL %d DAY )",
+				$days
+			)
+		);
 	}
 
 }

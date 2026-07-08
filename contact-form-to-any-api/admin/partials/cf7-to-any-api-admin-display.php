@@ -194,6 +194,102 @@ Enter each header on a new line. Add as many headers as required.', 'contact-for
                     </div>
                 </div>
             </div>
+
+            <!-- PRO Textarea Support Promo Section -->
+            <div class="cf7anyapi-nested-promo-container">
+                <div class="cf7anyapi-nested-promo-grid">
+                    
+                    <!-- Left features list -->
+                    <div class="cf7anyapi-nested-promo-left">
+                        <div class="cf7anyapi-nested-promo-title-wrap">
+                            <span class="cf7anyapi-nested-promo-badge"><?php esc_html_e( 'PRO', 'contact-form-to-any-api' ); ?></span>
+                            <span class="cf7anyapi-nested-promo-title"><?php esc_html_e( 'Nested JSON Support (Pro Feature)', 'contact-form-to-any-api' ); ?></span>
+                            <span class="dashicons dashicons-lock cf7anyapi-nested-promo-title-icon"></span>
+                        </div>
+                        <p class="cf7anyapi-nested-promo-desc"><?php esc_html_e( 'Send nested, multi-level JSON payloads to your API with full flexibility.', 'contact-form-to-any-api' ); ?></p>
+                        
+                        <div class="cf7anyapi-nested-promo-list">
+                            <div>
+                                <div class="cf7anyapi-nested-promo-item-header">
+                                    <span class="dashicons dashicons-yes-alt"></span>
+                                    <span><?php esc_html_e( 'Support Multi-Level & Nested JSON', 'contact-form-to-any-api' ); ?></span>
+                                </div>
+                                <p class="cf7anyapi-nested-promo-item-desc"><?php esc_html_e( 'Map form fields to deep or nested JSON keys (e.g., users[0].address.street).', 'contact-form-to-any-api' ); ?></p>
+                            </div>
+                            <div>
+                                <div class="cf7anyapi-nested-promo-item-header">
+                                    <span class="dashicons dashicons-yes-alt"></span>
+                                    <span><?php esc_html_e( 'Any JSON Format', 'contact-form-to-any-api' ); ?></span>
+                                </div>
+                                <p class="cf7anyapi-nested-promo-item-desc"><?php esc_html_e( 'Send data in any structure – array, object, nested object or mixed.', 'contact-form-to-any-api' ); ?></p>
+                            </div>
+                            <div>
+                                <div class="cf7anyapi-nested-promo-item-header">
+                                    <span class="dashicons dashicons-yes-alt"></span>
+                                    <span><?php esc_html_e( 'Perfect for Complex Integrations', 'contact-form-to-any-api' ); ?></span>
+                                </div>
+                                <p class="cf7anyapi-nested-promo-item-desc"><?php esc_html_e( 'Ideal for APIs that require advanced JSON payloads.', 'contact-form-to-any-api' ); ?></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Free flat JSON box -->
+                    <div class="cf7anyapi-nested-promo-json-box free">
+                        <div>
+                            <div class="cf7anyapi-nested-promo-json-header free">
+                                <span class="dashicons dashicons-dismiss"></span>
+                                <span><?php esc_html_e( 'Standard (Free)', 'contact-form-to-any-api' ); ?></span>
+                            </div>
+                            <p class="cf7anyapi-nested-promo-json-desc"><?php esc_html_e( 'Only supports simple key-value pairs.', 'contact-form-to-any-api' ); ?></p>
+                        </div>
+                        <pre>{
+  "name": "John",
+  "email": "john@example.com",
+  "message": "Hello"
+}</pre>
+                    </div>
+
+                    <!-- Center Arrow -->
+                    <div class="cf7anyapi-nested-promo-arrow-wrap">
+                        <span class="dashicons dashicons-arrow-right-alt cf7anyapi-nested-promo-arrow"></span>
+                    </div>
+
+                    <!-- Pro Nested JSON box -->
+                    <div class="cf7anyapi-nested-promo-json-box pro">
+                        <div>
+                            <div class="cf7anyapi-nested-promo-json-header pro">
+                                <span class="dashicons dashicons-yes"></span>
+                                <span><?php esc_html_e( 'Pro (Nested JSON)', 'contact-form-to-any-api' ); ?></span>
+                            </div>
+                            <p class="cf7anyapi-nested-promo-json-desc"><?php esc_html_e( 'Supports multi-level & any JSON format.', 'contact-form-to-any-api' ); ?></p>
+                        </div>
+                        <pre>{
+  "user": {
+    "name": "John Doe",
+    "contact": {
+      "email": "john@example.com"
+    },
+    "address": {
+      "street": "123 Main St"
+    }
+  },
+  "message": "Hello, need support"
+}</pre>
+                    </div>
+
+                    <!-- Upgrade CTA Callout box -->
+                    <div class="cf7anyapi-nested-promo-cta-box">
+                        <span class="dashicons dashicons-admin-customizer"></span>
+                        <h4 class="cf7anyapi-nested-promo-cta-title"><?php esc_html_e( 'Unlock Powerful JSON Mapping', 'contact-form-to-any-api' ); ?></h4>
+                        <p class="cf7anyapi-nested-promo-cta-desc"><?php esc_html_e( 'Upgrade to Pro and unlock advanced nested JSON mapping.', 'contact-form-to-any-api' ); ?></p>
+                        <a href="<?php echo esc_url( CF7_CURL_DOMAIN . '/pricing/' ); ?>" target="_blank" class="cf7anyapi-nested-promo-cta-btn">
+                            <span><?php esc_html_e( 'Upgrade to Pro', 'contact-form-to-any-api' ); ?></span>
+                            <span class="dashicons dashicons-external"></span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
             
             <!-- Enable Conditional Logic Main -->
             <div class="cf7anyapi-conditional-logic">
