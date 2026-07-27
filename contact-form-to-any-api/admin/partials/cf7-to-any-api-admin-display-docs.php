@@ -141,7 +141,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <p><?php esc_html_e( 'Watch how fast you can connect Contact Form 7 to Zoho CRM, Odoo, ActiveCampaign, or even Notion. Within 2 minutes, add your API details, map your fields, send test data, and go live without writing a line of code.', 'contact-form-to-any-api' ); ?></p>
 
                         <div class="iframe-wrap embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/1K-JdXwDH_k" title="<?php esc_attr_e( 'YouTube video player', 'contact-form-to-any-api' ); ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/5mlvMXaWDC8" title="<?php esc_attr_e( 'YouTube video player', 'contact-form-to-any-api' ); ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
                     </div>
                     <!-- Logs -->

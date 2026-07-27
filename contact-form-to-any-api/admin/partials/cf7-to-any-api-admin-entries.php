@@ -108,11 +108,11 @@ $cf7anyapi_cf_id = $cf7anyapi_cf_id !== null && $cf7anyapi_cf_id !== false ? int
 												} else if($cf7anyapi_instance->cf7toanyapi_admin_get_field_name($cf7anyapi_value2) == 'submitted_from'){
 													echo '<td data-head="'.esc_attr( $cf7anyapi_instance->cf7toanyapi_admin_get_field_name($cf7anyapi_value2) ).'"><a href="'.esc_url(get_the_permalink($cf7anyapi_inner_value)).'" target="_blank">'.esc_html(get_the_title($cf7anyapi_inner_value)).'</a></td>';
 												} else{
-													$cf7anyapi_inner_values_decoded = esc_html(html_entity_decode($cf7anyapi_inner_value));
+													$cf7anyapi_inner_values_decoded = wp_kses_post(html_entity_decode($cf7anyapi_inner_value));
 													if(strlen($cf7anyapi_inner_values_decoded) > $cf7anyapi_display_character){
-														echo '<td data-head="'. esc_attr(  $cf7anyapi_instance->cf7toanyapi_admin_get_field_name($cf7anyapi_value2) ).'">'.esc_html(substr($cf7anyapi_inner_values_decoded, 0, $cf7anyapi_display_character)).'...</td>';
+														echo '<td data-head="'. esc_attr(  $cf7anyapi_instance->cf7toanyapi_admin_get_field_name($cf7anyapi_value2) ).'">'.wp_kses_post(substr(html_entity_decode($cf7anyapi_inner_value), 0, $cf7anyapi_display_character)).'...</td>';
 													}else{
-														echo '<td data-head="'. esc_attr(  $cf7anyapi_instance->cf7toanyapi_admin_get_field_name($cf7anyapi_value2) ).'">'.esc_html( htmlspecialchars_decode( $cf7anyapi_inner_value ) ).'</td>';
+														echo '<td data-head="'. esc_attr(  $cf7anyapi_instance->cf7toanyapi_admin_get_field_name($cf7anyapi_value2) ).'">'.wp_kses_post( htmlspecialchars_decode( $cf7anyapi_inner_value ) ).'</td>';
 													}
 												}
 											}//Close foreach

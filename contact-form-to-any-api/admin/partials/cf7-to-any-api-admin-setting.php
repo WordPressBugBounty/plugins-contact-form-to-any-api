@@ -16,8 +16,8 @@ $cf7anyapi_object = new Cf7_To_Any_Api();
 $cf7anyapi_options = $cf7anyapi_object->setting_get_options();
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-$tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : '';
-if ( 'status' === $tab ) {?>
+$cf7anyapi_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : '';
+if ( 'status' === $cf7anyapi_tab ) {?>
     <div class="wrap cf-settings-wrap cf-sys-status">
         <h1 class="wp-heading-inline"><?php esc_html_e( 'CF7 to Any API Settings', 'contact-form-to-any-api' ); ?></h1> 
         <h2 class="screen-reader-text"><?php esc_html_e( 'CF7 to Any API Settings ', 'contact-form-to-any-api' ); ?></h2>
@@ -125,8 +125,8 @@ if ( 'status' === $tab ) {?>
                             <tr class="cf7_to_api_auto_delete_days_row" <?php echo empty( $cf7anyapi_options['cf7_to_api_auto_delete_logs'] ) ? 'style="display:none;"' : ''; ?>>
                                 <th scope="row"><?php esc_html_e( 'Auto Delete Logs After (Days)', 'contact-form-to-any-api' ); ?></th>
                                 <td>
-                                    <?php $auto_delete_days = ! empty( $cf7anyapi_options['cf7_to_api_auto_delete_days'] ) ? absint( $cf7anyapi_options['cf7_to_api_auto_delete_days'] ) : 90; ?>
-                                    <input type="number" name="cf7_to_api_auto_delete_days" id="cf7_to_api_auto_delete_days" class="small-text" min="1" value="<?php echo esc_attr( $auto_delete_days ); ?>" />
+                                    <?php $cf7anyapi_auto_delete_days = ! empty( $cf7anyapi_options['cf7_to_api_auto_delete_days'] ) ? absint( $cf7anyapi_options['cf7_to_api_auto_delete_days'] ) : 90; ?>
+                                    <input type="number" name="cf7_to_api_auto_delete_days" id="cf7_to_api_auto_delete_days" class="small-text" min="1" value="<?php echo esc_attr( $cf7anyapi_auto_delete_days ); ?>" />
                                     <p class="description"><?php esc_html_e( 'Log entries older than this many days will be automatically deleted. Default is 90 days.', 'contact-form-to-any-api' ); ?></p>
                                 </td>
                             </tr>
@@ -157,13 +157,13 @@ if ( 'status' === $tab ) {?>
                             <tr class="cf7_to_api_failure_email_row" <?php echo empty( $cf7anyapi_options['cf7_to_api_failure_email_enable'] ) ? 'style="display:none;"' : ''; ?>>
                                 <th scope="row"><?php esc_html_e( 'Email throttle interval', 'contact-form-to-any-api' ); ?></th>
                                 <td>
-                                    <?php $throttle_value = ! empty( $cf7anyapi_options['cf7_to_api_failure_email_throttle'] ) ? intval( $cf7anyapi_options['cf7_to_api_failure_email_throttle'] ) : 5; ?>
+                                    <?php $cf7anyapi_throttle_value = ! empty( $cf7anyapi_options['cf7_to_api_failure_email_throttle'] ) ? intval( $cf7anyapi_options['cf7_to_api_failure_email_throttle'] ) : 5; ?>
                                     <select name="cf7_to_api_failure_email_throttle" id="cf7_to_api_failure_email_throttle">
-                                        <option value="0" <?php selected( $throttle_value, 0 ); ?>><?php esc_html_e( 'No Limit (send every time)', 'contact-form-to-any-api' ); ?></option>
-                                        <option value="5" <?php selected( $throttle_value, 5 ); ?>><?php esc_html_e( '5 Minutes', 'contact-form-to-any-api' ); ?></option>
-                                        <option value="15" <?php selected( $throttle_value, 15 ); ?>><?php esc_html_e( '15 Minutes', 'contact-form-to-any-api' ); ?></option>
-                                        <option value="30" <?php selected( $throttle_value, 30 ); ?>><?php esc_html_e( '30 Minutes', 'contact-form-to-any-api' ); ?></option>
-                                        <option value="60" <?php selected( $throttle_value, 60 ); ?>><?php esc_html_e( '1 Hour', 'contact-form-to-any-api' ); ?></option>
+                                        <option value="0" <?php selected( $cf7anyapi_throttle_value, 0 ); ?>><?php esc_html_e( 'No Limit (send every time)', 'contact-form-to-any-api' ); ?></option>
+                                        <option value="5" <?php selected( $cf7anyapi_throttle_value, 5 ); ?>><?php esc_html_e( '5 Minutes', 'contact-form-to-any-api' ); ?></option>
+                                        <option value="15" <?php selected( $cf7anyapi_throttle_value, 15 ); ?>><?php esc_html_e( '15 Minutes', 'contact-form-to-any-api' ); ?></option>
+                                        <option value="30" <?php selected( $cf7anyapi_throttle_value, 30 ); ?>><?php esc_html_e( '30 Minutes', 'contact-form-to-any-api' ); ?></option>
+                                        <option value="60" <?php selected( $cf7anyapi_throttle_value, 60 ); ?>><?php esc_html_e( '1 Hour', 'contact-form-to-any-api' ); ?></option>
                                     </select>
                                     <p class="description"><?php esc_html_e( 'Minimum time between failure notification emails to prevent flooding.', 'contact-form-to-any-api' ); ?></p>
                                 </td>

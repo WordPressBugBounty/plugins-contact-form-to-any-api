@@ -498,6 +498,12 @@ class Cf7_To_Any_Api_Admin {
 			exit();
 		}
 
+		// Capability check: require at minimum the ability to edit posts.
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			echo wp_json_encode( __( 'You do not have permission to perform this action.', 'contact-form-to-any-api' ) );
+			exit();
+		}
+
 		if(empty((int)sanitize_text_field(wp_unslash($_POST['form_id'])))){
 			echo wp_json_encode(__( 'No Fields Found for Selected Form.', 'contact-form-to-any-api' ));
 			exit();
@@ -515,8 +521,8 @@ class Cf7_To_Any_Api_Admin {
 			foreach($form_fields as $form_fields_key => $form_fields_value){
 				if($form_fields_value->basetype != 'submit'){
 					$html .= '<div class="cf7anyapi_field">';
-						$html .= '<label for="cf7anyapi_'.$form_fields_value->raw_name.'">'.$form_fields_value->name.'</label>';
-						$html .= '<input type="text" id="cf7anyapi_'.$form_fields_value->raw_name.'" name="cf7anyapi_form_field['.$form_fields_value->name.']" value="'.$post_form_field[$form_fields_value->raw_name].'" data-basetype="'.$form_fields_value->basetype.'" placeholder="'. __( 'Enter your API mapping key', 'contact-form-to-any-api' ). '">'; 
+						$html .= '<label for="cf7anyapi_' . esc_attr( $form_fields_value->raw_name ) . '">' . esc_html( $form_fields_value->name ) . '</label>';
+						$html .= '<input type="text" id="cf7anyapi_' . esc_attr( $form_fields_value->raw_name ) . '" name="cf7anyapi_form_field[' . esc_attr( $form_fields_value->name ) . ']" value="' . esc_attr( $post_form_field[ $form_fields_value->raw_name ] ?? '' ) . '" data-basetype="' . esc_attr( $form_fields_value->basetype ) . '" placeholder="' . esc_attr__( 'Enter your API mapping key', 'contact-form-to-any-api' ) . '">';
 					$html .= '</div>';
 				}
 			}
@@ -525,8 +531,8 @@ class Cf7_To_Any_Api_Admin {
 			foreach($form_fields as $form_fields_key => $form_fields_value){
 				if($form_fields_value->basetype != 'submit'){
 					$html .= '<div class="cf7anyapi_field">';
-						$html .= '<label for="cf7anyapi_'.$form_fields_value->raw_name.'">'.$form_fields_value->name.'</label>';
-						$html .= '<input type="text" id="cf7anyapi_'.$form_fields_value->raw_name.'" name="cf7anyapi_form_field['.$form_fields_value->name.']" data-basetype="'.$form_fields_value->basetype.'" placeholder="'. __( 'Enter your API mapping key', 'contact-form-to-any-api' ). '">'; 
+						$html .= '<label for="cf7anyapi_' . esc_attr( $form_fields_value->raw_name ) . '">' . esc_html( $form_fields_value->name ) . '</label>';
+						$html .= '<input type="text" id="cf7anyapi_' . esc_attr( $form_fields_value->raw_name ) . '" name="cf7anyapi_form_field[' . esc_attr( $form_fields_value->name ) . ']" data-basetype="' . esc_attr( $form_fields_value->basetype ) . '" placeholder="' . esc_attr__( 'Enter your API mapping key', 'contact-form-to-any-api' ) . '">';
 					$html .= '</div>';
 				}
 			}
@@ -625,17 +631,23 @@ class Cf7_To_Any_Api_Admin {
 		if (! is_dir($cf7_uploads_dir)) {
 			wp_mkdir_p( $cf7_uploads_dir );
 		}
+		// Prevent directory listing by ensuring an index.php placeholder exists.
+		$cf7_index_file = $cf7_uploads_dir . '/index.php';
+		if ( ! file_exists( $cf7_index_file ) ) {
+			file_put_contents( $cf7_index_file, '<?php // Silence is golden.' ); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_file_put_contents
+		}
 		$submission = WPCF7_Submission::get_instance();
 		$posted_data = $submission->get_posted_data();
 		$cf7files = $submission->uploaded_files();
 		if( !empty($cf7files) && get_option('cf7_to_api_entry_hide') != true ) {
 			foreach ($cf7files as $key => $cf7file) {
 				if(!empty($cf7file)){
-					$ext = pathinfo($cf7file[0], PATHINFO_EXTENSION);
-					$f_name = pathinfo($cf7file[0], PATHINFO_FILENAME );
-					$fileName = 'cf7-'.$form_id.'-'.time().'.'.$ext;
+					$ext = sanitize_file_name( pathinfo( $cf7file[0], PATHINFO_EXTENSION ) );
+					// Use a cryptographically random token instead of a predictable
+					// form_id + timestamp pattern to prevent unauthenticated file enumeration.
+					$fileName = 'cf7-' . wp_generate_password( 16, false ) . '.' . $ext;
 					copy($cf7file[0], $cf7_uploads_dir.'/'.$fileName);
-					$posted_data[$key] = '<a href="'.wp_upload_dir()['baseurl'] . '/cf7-to-any-api-uploads/'.$fileName.'" target="_blank">'.$fileName.'</a>';
+					$posted_data[$key] = '<a href="'.wp_upload_dir()['baseurl'] . '/cf7-to-any-api-uploads/'.esc_attr($fileName).'" target="_blank">'.esc_html($fileName).'</a>';
 			    }
 			}
 		}

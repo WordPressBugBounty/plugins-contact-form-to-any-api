@@ -4,7 +4,7 @@ Tags: contact form 7, rest api, crm, webhook, integration
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.0.6
+Stable tag: 3.0.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -220,6 +220,16 @@ No. The plugin is lightweight and optimized for WordPress performance.
 
 == Changelog ==
 
+= 3.0.7 =
+
+*Release Date: 27 July 2026*
+
+* Security Fix: Added output escaping (`esc_attr()`, `esc_html()`) to all HTML attributes rendered by the AJAX form-field builder to prevent Stored Cross-Site Scripting via the `cf7anyapi_form_field` post meta (CVE-2026-15735). Reported by Wordfence / PRISM.
+* Security Fix: Added `current_user_can('edit_posts')` authorization check to the `cf7_to_any_api_get_form_field` AJAX handler to prevent unauthorized access by low-privilege users.
+* Security Fix: Replaced predictable upload filename pattern (`cf7-{form_id}-{timestamp}.ext`) with a cryptographically random 16-character token (`wp_generate_password`) to prevent unauthenticated file enumeration. Reported by Farid Narimanov.
+* Security Fix: Added `sanitize_file_name()` on uploaded file extensions before constructing the destination filename.
+* Security Fix: Added `index.php` silence file to the plugin uploads directory (`cf7-to-any-api-uploads`) to prevent Apache directory listing.
+
 = 3.0.6 =
 
 *Release Date: 8 July 2026*
@@ -426,6 +436,9 @@ No. The plugin is lightweight and optimized for WordPress performance.
 * Initial Release
 
 == Upgrade Notice ==
+
+= 3.0.7 =
+Security release. Fixes Stored XSS (CVE-2026-15735) via form field mapping and sensitive file disclosure via predictable upload filenames. All users are strongly encouraged to update immediately.
 
 = 3.0.3 =
 Adds conditional logic to control API requests based on form field values. 
