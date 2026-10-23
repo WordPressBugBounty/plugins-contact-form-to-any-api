@@ -8,21 +8,13 @@ Stable tag: 3.0.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Send Contact Form 7 submissions to any API, Webhook or CRM - quick setup, flexible payloads, endpoints and authentication. 
+Send Contact Form 7 submissions to any API, Webhook or CRM — quick setup, flexible payloads, endpoints and authentication.
 
 == Description ==
 
 Contact Form 7 to Any API lets you send form submissions directly to any CRM, Webhook, marketing platform or REST API with complete control over payloads, endpoints, headers and authentication.
 
-Built for developers, agencies, and technical teams who need flexible, secure WordPress API and Webhook integrations without extra middleware
-
-Once activated, you can:
-
-* Define custom API payloads and endpoints
-* Choose HTTP methods (POST, GET)
-* Add headers and authentication tokens / key
-* Connect unlimited APIs
-* Deliver form submissions instantly
+Built for developers, agencies, and technical teams who need flexible, secure WordPress API and Webhook integrations without extra middleware.
 
 All data stays private within WordPress until it’s successfully sent to your chosen API.
 
@@ -32,37 +24,51 @@ https://youtu.be/5mlvMXaWDC8
 
 == Key Features ==
 
-Transform your Contact Form 7 forms into automation-ready data pipelines with these key features:
-
-- **Send CF7 Leads to Any API or Webhook**: Send submissions to any CRM or external REST API, or Webhook using POST or GET.  
-- **Conditional Field Support**: Control API or Webhook requests using field-based conditions.
-- **Create Up to 5 API Connections**: Connect multiple endpoints; upgrade to Pro for unlimited connections.  
-- **Supports JSON (Simple & Fixed Formats)**: Build structured API requests easily.  
-- **Supports Basic & Bearer Authentication**: Connect securely using standard auth methods.  
-- **API Logs Management**: View submitted data, requests, and responses directly in your dashboard.  
-- **Auto Delete Logs**: Automatically purge API logs older than a configurable number of days (default: 90) to keep your database clean without manual effort.  
-- **Email Notifications on API Failure**: Get instant email alerts when an API call returns a non-success response, with configurable recipients and throttle interval to prevent flooding.  
-- **Save Submissions to Database**: Keep every form entry safely stored within WordPress.  
-- **Export CF7 Data**: Export entries in CSV, Excel, PDF, or Print format.  
-- **Manage Entries**: Single or bulk delete saved entries easily.  
-- **Send Data Before or After CF7 Mail**: Choose when the API or Webhook request is triggered.  
-- **Works with 200+ CRMs and APIs**: Integrate with HubSpot, Zoho, Salesforce, and many more.  
-- **Multisite Compatible**: Works seamlessly across WordPress networks.  
-- **WPML Compatible**: Works seamlessly with multilingual sites.  
-- **File Uploads to API** - automatically converts files to BASE64  
+* Send CF7 Leads to Remote API's such as CRM and other External API using POST/GET
+* Create up to 5 API Connections
+* Supports Simple & Fixed Format of JSON
+* Supports Basic Auth
+* Supports Bearer Auth
+* API Logs Management with submitted data and API response
+* Auto Delete Logs (purge logs older than configurable number of days)
+* Email Notifications on API Failure
+* Save Contact Form 7 form submitted data to the database
+* Export Contact Form 7 Data in CSV, EXCEL, PDF, Print
+* Single Or Multiple delete CF7 entries
+* Conditional Field Support (Equals / Not Equals)
+* File input supported - Uploaded file will convert into BASE64 and send to API
+* Multisite Compatible
+* WPML Compatible
+* Predefined Tags support
+* Send data to multiple API <strong><a href="https://www.contactformtoapi.com/pricing/" target="_blank">(PRO)</a></strong>
+* Support Multi Level or Any Format of JSON <strong><a href="https://www.contactformtoapi.com/pricing/" target="_blank">(PRO)</a></strong>
+* Send attachments to any API <strong><a href="https://www.contactformtoapi.com/pricing/" target="_blank">(PRO)</a></strong>
+* Option to Choose when to send data to API - Before CF7 mail sent OR After mail sent <strong><a href="https://www.contactformtoapi.com/pricing/" target="_blank">(PRO)</a></strong>
+* Multi File Upload Support <strong><a href="https://www.contactformtoapi.com/pricing/" target="_blank">(PRO)</a></strong>
+* Compatible with Multiline files upload for contact form 7 Plugin <strong><a href="https://www.contactformtoapi.com/pricing/" target="_blank">(PRO)</a></strong>
+* Option to choose Numerical Fields / Integer Fields <strong><a href="https://www.contactformtoapi.com/pricing/" target="_blank">(PRO)</a></strong>
+* Option to choose Multiple File upload fields <strong><a href="https://www.contactformtoapi.com/pricing/" target="_blank">(PRO)</a></strong>
+* Retry Failed API Logs (Auto and Manual Retry) <strong><a href="https://www.contactformtoapi.com/pricing/" target="_blank">(PRO)</a></strong>
+* Bulk Retry failed API calls <strong><a href="https://www.contactformtoapi.com/pricing/" target="_blank">(PRO)</a></strong>
+* Advanced Email Notifications on API Failure <strong><a href="https://www.contactformtoapi.com/pricing/" target="_blank">(PRO)</a></strong>
+* Priority Support <strong><a href="https://www.contactformtoapi.com/pricing/" target="_blank">(PRO)</a></strong>
+* Paid plugin customization support for JWT Token Integration with Any API <strong><a href="https://www.contactformtoapi.com/#contact_us" target="_blank">(Contact us)</a></strong>
+* Paid plugin customization support for OAuth 2.0 API Integration <strong><a href="https://www.contactformtoapi.com/#contact_us" target="_blank">(Contact us)</a></strong>
+* Paid Plugin customization support for any API <strong><a href="https://www.contactformtoapi.com/#contact_us" target="_blank">(Contact us)</a></strong>
+* WPForms to Any API Plugin - <strong><a href="https://wordpress.org/plugins/connect-wpform-to-any-api/" target="_blank">(Plugin for WPForm Users - Connect WPForm to Any API)</a></strong>
 
 == Upgrade to PRO for Advanced Integrations ==
 
-Unlock advanced flexibility and full control with **[Contact Form 7 to Any API PRO]((https://www.contactformtoapi.com/pricing/))**
+Unlock advanced flexibility and full control with **[Contact Form 7 to Any API PRO](https://www.contactformtoapi.com/pricing/)**
 
-- **Unlimited API Connections** per site  
-- **Multi-level / Any JSON Structure** support  
-- **Multiple File Upload Field Support**  
-- **Define Integer Fields** – map numeric fields precisely  
-- **Retry Failed API Logs** – auto and manually retry any failed API call directly from the log screen  
-- **Bulk Retry** – re-send multiple failed API calls at once with a single click  
-- **Advanced Email Notifications on API Failure** – send failure alerts to multiple   
-- **Priority Support** for faster assistance  
+* **Unlimited API Connections** per site  
+* **Multi-level / Any JSON Structure** support  
+* **Multiple File Upload Field Support**  
+* **Define Integer Fields** – map numeric fields precisely  
+* **Retry Failed API Logs** – auto and manually retry any failed API call directly from the log screen  
+* **Bulk Retry** – re-send multiple failed API calls at once with a single click  
+* **Advanced Email Notifications on API Failure** – send failure alerts to multiple recipients  
+* **Priority Support** for faster assistance  
 
 **Price:** $29.99/year  
 
@@ -74,7 +80,7 @@ For APIs that require advanced authorization, our **PRO Add-On ($99.99)** provid
 
 * OAuth 2.0 and JWT token authentication  
 * Automatic access/refresh token management  
-* JWT Token Integration with Any API.
+* JWT Token Integration with Any API  
 * Perfect for enterprise or expiring token setups  
 
 [Get the Add-On](https://www.contactformtoapi.com/pricing/)
@@ -96,22 +102,27 @@ Basic and Bearer authentication can be configured directly in the header input f
 
 Connect Contact Form 7 with 200+ CRM and marketing platforms:
 
-* [Twilio WhatsApp](https://www.contactformtoapi.com/twilio-whatsapp-business-api-integration-with-contact-form-to-any-api/) 
-* [Brevo](https://www.contactformtoapi.com/brevo-integration-with-contact-form-to-any-api/)
-* [Mailcoach](https://www.contactformtoapi.com/mailcoach-integration-with-contact-form-to-any-api/)
-* [Pipeline CRM](https://www.contactformtoapi.com/pipeline-crm-integration-with-contact-form-to-any-api/)
-* [Mailchimp](https://www.contactformtoapi.com/mailchimp-integration-with-contact-form-to-any-api/)
-* [OnePage CRM](https://www.contactformtoapi.com/onepagecrm-integration-with-contact-form-to-any-api/) 
-* [Zapier](https://www.contactformtoapi.com/zapier-integration-with-contact-form-to-any-api/)
-* [Mailbluster](https://www.contactformtoapi.com/mailbluster-integration-with-contact-form-to-any-api/)
-* [Clio Grow](https://www.contactformtoapi.com/how-to-send-contact-form-7-leads-to-clio-grow-using-contact-form-to-any-api-pro/)
+* [Twilio WhatsApp](https://www.contactformtoapi.com/twilio-whatsapp-business-api-integration-with-contact-form-to-any-api/) — [Watch Video](https://www.youtube.com/watch?v=ZSDCfI2W9kw)
+* [Brevo](https://www.contactformtoapi.com/brevo-integration-with-contact-form-to-any-api/) — [Watch Video](https://www.youtube.com/watch?v=eIM5ABIM6gE)
+* [Mailcoach](https://www.contactformtoapi.com/mailcoach-integration-with-contact-form-to-any-api/) — [Watch Video](https://www.youtube.com/watch?v=lzoVbDFW-yM)
+* [Pipeline CRM](https://www.contactformtoapi.com/pipeline-crm-integration-with-contact-form-to-any-api/) — [Watch Video](https://www.youtube.com/watch?v=11v0vbuGrrM)
+* [Mailchimp](https://www.contactformtoapi.com/mailchimp-integration-with-contact-form-to-any-api/) — [Watch Video](https://www.youtube.com/watch?v=CgwNkPTAgWo)
+* [Mailbluster](https://www.contactformtoapi.com/mailbluster-integration-with-contact-form-to-any-api/) — [Watch Video](https://www.youtube.com/watch?v=ai_deG5NOis)
+* [Zapier](https://www.contactformtoapi.com/zapier-integration-with-contact-form-to-any-api/) — [Watch Video](https://www.youtube.com/watch?v=23hYwaHcUVQ)
+* [HubSpot CRM](https://www.contactformtoapi.com/how-to-integrate-contact-form-7-with-hubspot/) — [Watch Video](https://www.youtube.com/watch?v=HT2LAU_GLkM)
 * [Salesforce CRM](https://www.contactformtoapi.com/how-to-send-contact-form-7-leads-to-salesforce-using-contact-form-to-any-api-pro/)
-* [Hubspot CRM](https://www.contactformtoapi.com/how-to-integrate-contact-form-7-with-hubspot/)
-* [Pipedrive](https://www.contactformtoapi.com/easily-connect-contact-form-7-with-pipedrive/)
-* [Freshsales](https://www.contactformtoapi.com/how-to-connect-contact-form-7-with-freshsales-crm/)
-* [Airtable](https://www.contactformtoapi.com/how-to-connect-contact-form-7-with-airtable-crm/)
-* [Capsule](https://www.contactformtoapi.com/how-to-connect-contact-form-7-with-capsule-crm/)
-* [EngageBay](https://www.contactformtoapi.com/how-to-connect-contact-form-7-with-engagebay-crm/)
+* [Pipedrive](https://www.contactformtoapi.com/easily-connect-contact-form-7-with-pipedrive/) — [Watch Video](https://www.youtube.com/watch?v=BrfIJ2pUXB8)
+* [Freshsales](https://www.contactformtoapi.com/how-to-connect-contact-form-7-with-freshsales-crm/) — [Watch Video](https://www.youtube.com/watch?v=hKDF5TKmJcs)
+* [Airtable](https://www.contactformtoapi.com/how-to-connect-contact-form-7-with-airtable-crm/) — [Watch Video](https://www.youtube.com/watch?v=MkpLycrXfUc)
+* [Capsule](https://www.contactformtoapi.com/how-to-connect-contact-form-7-with-capsule-crm/) — [Watch Video](https://www.youtube.com/watch?v=KH91yFUnaXo)
+* [EngageBay](https://www.contactformtoapi.com/how-to-connect-contact-form-7-with-engagebay-crm/) — [Watch Video](https://www.youtube.com/watch?v=bYH0waoU880)
+* [OnePage CRM](https://www.contactformtoapi.com/onepagecrm-integration-with-contact-form-to-any-api/)
+* [Clio Grow](https://www.contactformtoapi.com/how-to-send-contact-form-7-leads-to-clio-grow-using-contact-form-to-any-api-pro/) — [Watch Video](https://www.youtube.com/watch?v=41VvClxc7g8)
+* [Close CRM](https://www.contactformtoapi.com/how-to-connect-contact-form-7-with-close-crm-in-wordpress/) — [Watch Video](https://www.youtube.com/watch?v=XZ_gHB1SWQE)
+* [Systeme CRM](https://www.contactformtoapi.com/how-to-connect-contact-form-7-with-systeme-crm-in-wordpress/) — [Watch Video](https://www.youtube.com/watch?v=63qte7ayl4c)
+* [Insightly CRM](https://www.contactformtoapi.com/how-to-connect-contact-form-7-with-insightly-crm-in-wordpress/) — [Watch Video](https://www.youtube.com/watch?v=b8k5oR7JzsM)
+* [Twenty CRM](https://www.contactformtoapi.com/how-to-connect-contact-form-7-with-twenty-crm/) — [Watch Video](https://www.youtube.com/watch?v=bNrJQNRUVWs)
+* [Agile CRM](https://www.youtube.com/watch?v=09H5xPHKNqc) — [Watch Video](https://www.youtube.com/watch?v=09H5xPHKNqc)
 * Sage CRM  
 * Odoo CRM/ERP System
 * Fluent CRM
@@ -147,6 +158,8 @@ Connect Contact Form 7 with 200+ CRM and marketing platforms:
 * Events500
 * SendPulse CRM
 * And many more
+
+Browse all integration guides: [Blog](https://www.contactformtoapi.com/category/api-integrations/) | [Video Tutorials](https://www.contactformtoapi.com/videos/)
 
 == Installation ==
 1. Upload the `contact-form-to-any-api` folder to the `/wp-content/plugins/` directory.
@@ -249,7 +262,7 @@ No. The plugin is lightweight and optimized for WordPress performance.
 
 = 3.0.4 =
 
-*Release Date: 13 April 2026* 
+*Release Date: 13 April 2026*
 
 * Fix: Security issue fixes and update
 * Fix: Code quality improvement
@@ -257,20 +270,20 @@ No. The plugin is lightweight and optimized for WordPress performance.
 
 = 3.0.3 =
 
-*Release Date: 22 January 2026* 
+*Release Date: 22 January 2026*
 
 * New: Added conditional field support (Equals / Not Equals)
 * Improvement: Code cleanup and performance enhancements
 
 = 3.0.2 =
 
-*Release Date 18th November 2025* 
+*Release Date 18th November 2025*
 
-* Fix - Minor fixes and update 
+* Fix - Minor fixes and update
 
 = 3.0.1 =
 
-*Release Date 14th November 2025* 
+*Release Date 14th November 2025*
 
 * Fix – Resolved popup loading issue when saving API configuration settings.
 * Fix – Addressed PHP fatal error occurring when using the POST method with GET body type.
@@ -372,21 +385,21 @@ No. The plugin is lightweight and optimized for WordPress performance.
 * Enhancement - Performance update
 
 = 1.1.2 =
-* Fix - Minor fixes and update 
+* Fix - Minor fixes and update
 * Fix - I18N issue fix
 
 = 1.1.1 =
-* Improvement - Plugin configuration documentation improvement 
-* Enhancement - Performance update 
+* Improvement - Plugin configuration documentation improvement
+* Enhancement - Performance update
 
 = 1.1.0 =
 * Fix - Multisite installation bug fix and update
 * Fix - Admin notice issue fix for some users
-* Fix - API issue fix for phone field  
+* Fix - API issue fix for phone field
 
 = 1.0.9 =
 * New - File input supported Uploaded file will convert into BASE64 and send to API
-* Enhancement - File url will save to database entries 
+* Enhancement - File url will save to database entries
 
 = 1.0.8 =
 * Enhancement - Compatibility updated for WordPress 6.2
@@ -394,9 +407,9 @@ No. The plugin is lightweight and optimized for WordPress performance.
 * Improvement - User IP column added in entries menu
 
 = 1.0.7 =
-* New - Added form data column in logs 
-* New - Submitted from new column added in entries 
-* Improvement - Integer value condition update for API calls. 
+* New - Added form data column in logs
+* New - Submitted from new column added in entries
+* Improvement - Integer value condition update for API calls.
 
 = 1.0.6 =
 * Fix - Database entries not visible for some users
@@ -411,7 +424,7 @@ No. The plugin is lightweight and optimized for WordPress performance.
 * New - Added delete all log feature
 * Improvement - Set default value for Input type and Method
 * Improvement - Added Title validation
-* Improvement - New added fields willl automatically appear in API settings screen 
+* Improvement - New added fields willl automatically appear in API settings screen
 * Improvement - Mapped fields value now remain on form change from API setting screen
 * Improvement - Form name column added in API List
 * Improvement - Documentation update
@@ -441,10 +454,10 @@ No. The plugin is lightweight and optimized for WordPress performance.
 Security release. Fixes Stored XSS (CVE-2026-15735) via form field mapping and sensitive file disclosure via predictable upload filenames. All users are strongly encouraged to update immediately.
 
 = 3.0.3 =
-Adds conditional logic to control API requests based on form field values. 
+Adds conditional logic to control API requests based on form field values.
 
 == License ==
 
-This plugin is licensed under the GNU General Public License v2 or later.  
+This plugin is licensed under the GNU General Public License v2 or later.
 
 https://www.gnu.org/licenses/gpl-2.0.html
